@@ -1,0 +1,87 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('../fonts/icomoon.eot?-vsjhma');
+	src:url('../fonts/icomoon.eot?#iefix-vsjhma') format('embedded-opentype'),
+		url('../fonts/icomoon.woff?-vsjhma') format('woff'),
+		url('../fonts/icomoon.ttf?-vsjhma') format('truetype'),
+		url('../fonts/icomoon.svg?-vsjhma#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icons-"], [class*=" icons-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icons-arrow-rights:before {
+	content: "\e600";
+}
+.icons-coins:before {
+	content: "\e601";
+}
+.icons-wrenchs:before {
+	content: "\e602";
+}
+.icons-files:before {
+	content: "\e603";
+}
+.icons-calendars:before {
+	content: "\e604";
+}
+.icons-signups:before {
+	content: "\e605";
+}
+.icons-searchs:before {
+	content: "\e606";
+}
+.icons-menus:before {
+	content: "\e607";
+}
+.icons-cogs:before {
+	content: "\e608";
+}
+.icons-users:before {
+	content: "\e609";
+}
+.icons-bells:before {
+	content: "\e60a";
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../fonts/lato-regular.eot');
+    src: url('../fonts/lato-regular.eot') format('embedded-opentype'),
+         url('../fonts/lato-regular.woff') format('woff'),
+         url('../fonts/lato-regular.ttf') format('truetype'),
+         url('../fonts/lato-regular.svg#Lato') format('svg');
+}
+
+@font-face {
+  font-family: "Flat-UI-Icons";
+  src: url("../fonts/Flat-UI-Icons.eot");
+  src: url("../fonts/Flat-UI-Icons.eot?#iefix") format("embedded-opentype"), url("../fonts/Flat-UI-Icons.woff") format("woff"), url("../fonts/Flat-UI-Icons.ttf") format("truetype"), url("../fonts/Flat-UI-Icons.svg#Flat-UI-Icons") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+    font-family: 'LatoLight';
+    src: url('../fonts/lato-light.eot');
+    src: url('../fonts/lato-light.eot') format('embedded-opentype'),
+         url('../fonts/lato-light.woff') format('woff'),
+         url('../fonts/lato-light.ttf') format('truetype'),
+         url('../fonts/lato-light.svg#LatoLight') format('svg');
+}
+
+
+

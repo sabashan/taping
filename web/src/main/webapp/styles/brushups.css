@@ -1,0 +1,832 @@
+/* This file contains final brushups of the applicaion */
+
+/* mststyleheaders CSS starts */
+
+#mststyleheaderList .operations-toggle, 
+#mststyleheaderdueList .operations-toggle {
+	padding: 5px 0px;
+	width: 95px;
+	background-color: rgba(0, 0, 0, 0);
+	float: left;
+	cursor: pointer;
+	color: #e67e22;
+}
+
+#mststyleheaderList .view-toggle,
+#mststyleheaderdueList .view-toggle{
+	padding: 5px 10px;
+	width: 80px;
+	background-color: rgba(0, 0, 0, 0);
+	float: left;
+	cursor: pointer;
+}
+
+.routId td {
+	height: 0;
+}
+
+#mststyleheaderList .headcol3{
+	padding-left: 0;
+}
+
+.search-form-btn {
+	height: 35px !important;
+	margin-top: 2px;
+}
+
+.table-responsive.Scroll-for-datatable-2 {
+	padding-top: 5px;
+}
+
+.routId .headcol2{
+	border-left: 1px solid #D8D8D8 !important;
+}
+
+#mststyleheaderList td.headcol2,
+#mststyleheaderList td.headcol3,
+#mststyleheaderdueList td.headcol2,
+#mststyleheaderdueList td.headcol3 {
+	height: 48px;
+}
+
+#mststyleheaderList th.headcol2,
+#mststyleheaderList th.headcol3,
+#mststyleheaderdueList th.headcol2,
+#mststyleheaderdueList th.headcol3 {
+	height: 55px;
+}
+
+.style-temporytable section {
+width: auto;
+overflow-x: scroll;
+margin-right: 257px !important;
+overflow-y: visible;
+}
+
+
+/* mststyleheaders CSS ends */
+
+/* mststyleheaderform CSS starts */
+
+.view-files-btn {
+	margin-top: 0;
+}
+
+.slider-custom {
+	margin: 32px 0 20px;
+}
+
+.model-popup-padding {
+	padding: 12px 20px 55px 20px;
+}
+
+.modal-content .btn {
+	margin-top: 10px;
+}
+
+.modal-content:first-child .btn {
+    margin-top: 0;
+}
+
+/* mststyleheaderform CSS ends */
+
+/* mststylemasterview CSS starts */
+
+.tan .table-cell {
+	padding-bottom: 10px;
+}
+
+.image-count {
+	padding-top: 8px;
+}
+
+/* mststylemasterview CSS ends */
+
+
+#newItemType input{
+	width:250px !important;
+}
+
+.selectize-control input, .selectize-input{
+	width:250px !important;
+}
+
+.errorInput{
+	color: red;
+	display: block;
+	float: left;
+	text-align: center;
+	margin-top: 5px;
+	margin-left: 58px;
+}
+
+.custom-search-formRight{
+	width: 370px;
+	float: right;
+	margin-bottom: 20px;
+}
+
+.modal-dialog .btn:last-child{
+	height: 34px;
+}
+
+#mststylerouteoperationList .view-toggle{
+	padding: 5px 10px;
+}
+
+.expolinks {
+	margin-top: 5px;
+    margin-left: 0px !important;
+}
+
+select.form-control {
+	-webkit-appearance: menulist;
+}
+
+#mststylerouteoperationList th{
+	min-width: 110px;
+}
+
+#mststylerouteoperationList th.headcol{
+	min-width: 0px;
+}
+
+#mststylerouteoperationList th.headcol2{
+	min-width: 0px;
+}
+
+#mststylerouteoperationList th.headcol3{
+	min-width: 0px;
+}
+
+.datatable_two{
+	margin-right: 484px !important;
+}
+
+#mststylerouteoperationList th.headcol {
+	height: 55px !important;
+}
+
+#mststylerouteoperationList th.headcol2 {
+	height: 55px !important;
+}
+
+#mststylerouteoperationList th.headcol3 {
+	height: 55px !important;
+}
+
+#route .headcol3{
+position: absolute;
+margin-top: 0px;
+top: auto;
+margin-right: 3% !important;
+}
+
+@media (min-width: 992px){
+.col-md-3 {
+width: 25%;
+}
+}
+
+
+.caret {
+display: none;
+}
+
+.slideupdowntogglex {
+width: 37px;
+height: 37px;
+border-left: 2px solid #B8B8B8;
+padding: 10px 10px 10px;
+display: block;
+margin: -11px;
+}
+
+/*muditha editite*/
+.mid-colx
+{
+	width:26% !important;
+}
+
+/*Toggle editing - muditha edited*/
+
+.editoggleevent
+{
+    margin-top:-2%;
+    margin-left: -8px;
+}
+
+
+.newwidth
+{
+  width: 253px !important;
+}
+
+.sectionnewclass
+{
+    margin-right: 376px !important;
+}
+
+
+.newwidthbrush
+ {
+     width:123px !important;
+     padding-top:1.5% !important;
+ }
+
+.newwidthbrush_text
+{
+    width:123px !important;
+}
+
+.mewadd
+{
+    margin-right: 507px !important;
+}
+
+
+.aditional
+{
+    margin-right: -10px !important;
+    width: 133px !important;
+}
+
+.sectionremove
+{
+    margin-right: 320px !important;
+}
+
+
+@-moz-document url-prefix() {
+    .aditional
+    {
+        margin-right: -10px !important;
+        width: 173px !important;
+    }
+
+    .sectionnewclass {
+        margin-right: 415px !important;
+    }
+
+    .newwidth
+    {
+        width: 268px !important;
+    }
+}
+
+.actionsin
+{
+    right:52px !important;
+}
+
+.precostsheetsnew
+{
+    right: 283px !important;
+    width: 143px !important;
+}
+
+.adedclass
+{
+    margin-right: 361px !important;
+}
+
+.opensnew
+{
+    height: 74px !important;
+    right: 240px !important;
+    width: 138px !important;
+}
+
+.opensnew1
+{
+    height: 34px !important;
+    right: 240px !important;
+    width: 138px !important;
+}
+
+.openaction
+{
+    height: 72px !important;
+    width: 212px !important;
+}
+
+.actionbuttonsset
+{
+    width: 212px !important;
+    height: 34px !important;
+}
+
+.actionbuttonsdisplay
+{
+    height: 72px !important;
+    width: 212px !important;
+}
+
+.actionbuttonsdisplay1
+{
+    height: 34px !important;
+    width: 212px !important;
+}
+
+.sectionsnewwidth
+{
+    margin-right: 227px !important;
+}
+
+
+.editicons
+{
+    padding: 1px 10px !important;
+}
+
+.resizestatus
+{
+
+}
+
+.changeparam
+{
+    margin-right: 484px !important;
+}
+
+
+.statuschange
+{
+    height: 73px !important;
+    right: 285px !important;
+    width: 231px !important;
+}
+
+.openasnewfinalcost
+{
+    height: 72px !important;
+    right: 287px !important;
+    width: 134px !important;
+}
+
+.actionsfinalcost
+{
+    height:72px !important;
+}
+
+.statuschange1
+{
+    height: 35px !important;
+    right: 285px !important;
+    width: 231px !important;
+}
+
+.openasnewfinalcost1
+{
+    height: 35px !important;
+    right: 287px !important;
+    width: 134px !important;
+}
+
+.actionsfinalcost1
+{
+    height:35px !important;
+}
+
+.tablemin
+{
+    min-width: 130px !important;
+}
+
+.disablebutton
+{
+    cursor:no-drop;
+}
+
+
+.chosen-container-multi .chosen-choices li.search-field input[type=text] {
+    margin: 1px 0;
+    padding: 15px;
+    width: 130px !important;
+    height: 15px;
+    outline: 0;
+    border: 0!important;
+    background: transparent!important;
+    box-shadow: none;
+    color: #666;
+    font-size: 100%;
+    font-family: sans-serif;
+    line-height: normal;
+    border-radius: 0;
+}
+
+.feedback {
+    height: 27px !important;
+}
+
+.masterclass
+{
+    margin-right: 490px !important;
+}
+
+.newone
+{
+    height: 106px !important;
+    width: 105px !important;
+    padding: 46px 22px !important;
+}
+
+.newone1
+{
+    width: 105px !important;
+}
+
+.newoney
+{
+    height: 106px !important;
+    padding: 46px 22px !important;
+}
+
+.newonez
+{
+    height: 106px !important;
+    padding: 46px 22px !important;
+}
+
+.precostsheetsnew
+{
+    width:130px !important;
+}
+
+.width40 {
+    width: 56% !important;
+}
+
+
+.maincolor
+{
+    margin-top: 1% !important;
+    position: absolute;
+    right: -1.3em;
+}
+
+.maincolorformwithsearch
+{
+    width:93% !important;
+}
+
+.marginTopx
+{
+    margin-top: 181px !important;
+    height: 100px;
+}
+
+.sectionclass
+{
+    width: 142px !important;
+}
+
+.RawMaterialwidth40{width:44%!important;}
+
+.edit-toggle > .disabled
+{
+    color: #CCC !important;
+    cursor: not-allowed;
+}
+
+.viewprecostsheet
+{
+    margin-right: 286px !important;
+}
+
+
+.viewprecostsheetactions
+{
+    width: 273px !important;
+    padding-top:1.5% !important;
+}
+
+.viewprecostsheetactionsview
+{
+    width: 273px !important;
+}
+
+.precostviewtable
+{
+    margin-right: 289px !important;
+}
+
+/* modification to precost sheet button*/
+
+.buttonprecost
+{
+    margin-top:-3% !important;
+}
+
+.mainoptionclasspre
+{
+    width:100px;
+}
+
+.preleft
+{
+    width:30px;
+    float: left;
+    text-align: center;
+}
+
+.preright{
+    width:70px;
+    float: right;
+    text-align: center;
+}
+
+.bs-example
+{
+    margin-top:-6%;
+    font-size:17px !important;
+}
+
+.newbuttonfinalcostfix{
+    margin-left: 37%;
+}
+
+.newheads
+{
+    height: 43px !important;
+}
+
+.sectionset{
+    margin-right: 384px !important;
+}
+
+.newheights
+{
+   height:53px !important;
+}
+
+.tablewidthfix{
+    width:20%;
+}
+
+.openasnewordersheet{
+    right: 253px !important;
+    width: 134px !important;
+}
+
+.ordersheetsection{
+    margin-right: 386px !important;
+}
+
+
+.scrollxonly
+{
+    overflow-x:scroll !important;
+}
+
+
+.colorwidth{
+    width:140px !important;
+}
+
+.searchbuttonfix{
+    margin-top:0px !important;
+}
+
+.avalable_routs_header{
+    padding-top: 1.5% !important;
+}
+
+.avalable_routs_header_edit{
+    margin-top: -4px;
+    margin-left: -8px;
+}
+
+.avalable_routs_header_action_buttons{
+    margin-top: -4px;
+}
+
+.avalable_operations_actions{
+    right:31px !important;
+    padding-top: 2.3% !important;
+}
+
+.avalable_operations_actions_buttons{
+    right:31px !important;
+}
+
+.avalable_operations_actions_edit{
+    margin-left: -15px;
+    padding-top: 2%;
+}
+
+.avalable_operations_actions_delete{
+    padding-top: 2%;
+}
+
+.style_broswer_openasnew{
+    padding-top:1.5% !important;
+}
+
+.components_save{
+    padding-left: 17% !important;
+}
+
+.components_delete{
+    padding-left: 30% !important;
+}
+
+.precostsheet_section{
+    margin-right: 483px !important;
+}
+
+.avalable_pre_cost_sheets_edit{
+     margin-top: -3px;
+    margin-left: -5px;
+ }
+
+.avalable_pre_cost_sheets_view{
+    margin-top: -3px;
+    margin-left: -5px;
+}
+
+.avalable_pre_cost_sheets_delete{
+    margin-top: -3px;
+    margin-left: -5px;
+}
+
+.pre_cost_sheets_need_attention_section{
+    margin-right: 394px !important;
+}
+
+.view_button_fix{
+    margin-top: -5px !important;
+}
+
+.style_action{
+    padding-top:10px !important;
+}
+
+.components_edit_eidt{
+    padding-left:27% !important;
+}
+
+.components_edit_delete{
+    padding-left:30% !important;
+}
+
+.add_color_button{
+    margin: 0px 20px -15px 0px;
+}
+
+.style_view_page_openasnew{
+    padding-top: 1.5% !important;
+    text-align: center !important;
+}
+
+.style_view_page_action{
+    padding-top: 1.5% !important;
+}
+
+.confirm_style_button{
+    margin-top: 12% !important;
+    margin-left: -19% !important;
+}
+
+.style_routs_submits{
+    margin-right: 52px !important;
+}
+
+.style_routs_submit_button{
+    margin-top: -6% !important;
+    margin-bottom: 14% !important;
+}
+
+.style_operations_action{
+    height:34px !important;
+}
+
+.style_operations_action_title{
+    height:38px !important;
+}
+
+.current_version_text{
+    margin-left: 1px !important;
+    width: 178px;
+}
+
+.pre_cost_sheet_row_section{
+    margin-right: 270px !important;
+}
+
+
+.pre_cost_sheet_row_actions{
+    height: 71px !important;
+    padding-top: 26px !important;
+}
+
+.pre_cost_sheet_row_actions_icons{
+    padding-left: 6% !important;
+}
+
+
+.total_price_precostsheet_padding{
+    padding-left:25px !important;
+}
+
+.create_finalcostsheet_action_view{
+    padding-left:8% !important;
+}
+
+.pre_cost_sheet_costsheet_type_text{
+    padding-left:20px !important;
+}
+
+.pre_cost_sheet_costsheet_cwt_text{
+    padding-left:20px !important;
+}
+
+.pre_cost_sheet_costsheet_cv_text{
+    padding-left:20px !important;
+}
+
+.pre_cost_sheet_costsheet_csn_text{
+    padding-left:40px !important;
+}
+
+.pre_cost_sheet_costsheet_date_text{
+     padding-left:40px !important;
+ }
+
+.pre_cost_sheet_costsheet_merchent_text{
+    padding-left:40px !important;
+}
+
+.pre_cost_sheet_costsheet_order_text{
+    padding-left:40px !important;
+}
+
+.currency_details_cost_sheet{
+    padding-left:20px !important;
+}
+
+.currency_details_dr_sheet{
+    padding-left:20px !important;
+}
+
+.cost_details_rm{
+    padding-left:20px !important;
+}
+
+.final_cost_sheet_sestion{
+    margin-right: 545px !important;
+}
+
+#schmodalpopup{
+    z-index:9999999999999999999999.99 !important;
+}
+
+.select_table_value_button{
+    margin: 9px 9px 6px 4px !important;
+}
+
+.date_final_cost_sheet{
+    padding-left: 30px !important;
+}
+
+.order_sheet_avalable_planning_order{
+    margin-left: -5% !important;
+}
+
+.order_sheet_avalable_planning_action{
+    margin-top:4px !important;
+}
+
+.final_cost_sheet_AMI{
+}
+
+.order_sheet_apply_row_action{
+    height: 71px !important;
+    padding-top: 27px !important;
+}
+
+.button_fix_final_cost_sheet{
+    width: 20% !important;
+    float: right !important;
+    margin-top: -6% !important;
+}
+
+.pre_cost_sheet_row_section_new{
+    margin-right: 254px !important;
+}
+
+.pre_cost_sheet_row_actions_new{
+    height: 37px !important;
+}
+
+.pre_cost_sheet_row_actions_icons_new{
+    padding-left: 0% !important;
+}
+
+.edit_fix{
+    padding-top: 5px !important;
+}
+
+.delete_fix{
+    padding-top: 5px !important;
+}

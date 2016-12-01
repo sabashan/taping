@@ -1,0 +1,1440 @@
+<!DOCTYPE project [
+    <!ENTITY config SYSTEM "./config.xmlf">
+    <!ENTITY login SYSTEM "./login.xmlf">
+]>
+<project basedir="." default="run-all-tests">
+    <taskdef resource="webtestTaskdefs.properties" />
+    <!-- for propertyregex: allows to build a message string with parameter replacement: "User {0} successfully created" -->
+    <!-- usage example -->
+    <!--
+        <propertyregex property="updated.byAdmin"
+            input="${user.updated.byAdmin}"
+            regexp="\{0\}"
+            replace="${it_user_signup.fullname}"
+            global="false" />
+        <verifytext description="verify success message" text="${updated.byAdmin}"/>
+     -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+
+    <!-- Use i18n bundle, 2nd one listed is the default -->
+    <property file="../../../target/classes/ApplicationResources_${user.language}.properties"/>
+    <property file="../../../target/classes/ApplicationResources.properties"/>
+    <property file="../../../target/classes/displaytag_${user.language}.properties"/>
+    <property file="../../../target/classes/displaytag.properties"/>
+
+    <!-- runs all targets -->
+    <target name="run-all-tests" 
+        depends="Login,Logout,PasswordHint,Signup,UserTests,StaticPages,WebServices,DWR,FileUpload,MerordersheetorderTests,MerordersheethdrTests,MercostsheethdrTests,MerprecostsheetTests,MststylewippointitemtypeTests,MststylewippointsTests,MststylerouteopdemmapTests,MststyleoperationTests,MststylerouteoperationTests,MststyleheaderTests,MstuserTests,MstcustomerTests"
+        description="Call and executes all test cases (targets)"/>
+    
+    <!-- runs user-related tests -->
+    <target name="UserTests" depends="EditUser,SearchUser,SaveUser,AddUser,ActiveUsers"
+        description="Call and executes all user test cases (targets)">
+        <echo>Successfully ran all User UI tests!</echo>
+    </target>
+    
+    <!-- Login to the application -->
+    <target name="Login" description="Runs login test and verifies Home's Title">
+        <webtest name="login">
+            &config;
+            <steps>
+                &login;
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Logout of the application -->
+    <target name="Logout" description="Runs logout test and verifies Login's Title">
+        <webtest name="logout">
+            &config;
+            <steps>
+                &login;
+                <invoke description="get Logout Page" url="/logout"/>
+                <verifytitle description="we should see the login title" text=".*${login.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Retrieve Password Hint -->
+    <target name="PasswordHint" description="Gets the user's password hint">
+        <webtest name="passwordHint">
+            &config;
+            <steps>
+                <invoke description="get Login Page" url="/"/>
+                <verifytitle description="we should see the login title" text=".*${login.title}.*" regex="true"/>
+                <invoke description="click password hint link" url="/passwordHint?username=admin"/>
+                <verifytitle description="show login title again" text=".*${login.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+    
+    <target name="StaticPages" description="Ensures that StaticFilter is working">
+        <webtest name="staticPages">
+            &config;
+            <steps>
+                &login;
+                <invoke description="go to static HTML page" url="/scripts/dojo/test.html"/>
+                <verifytitle description="we should see static title" text="Static HTML Page" regex="true"/>
+                <verifytext description="verify message" text="Static content!"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify the edit user screen displays without errors -->
+    <target name="EditUser"  description="Tests selecting the 'Edit Profile' forward">
+        <webtest name="editUser">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Profile link" url="/userform"/>
+                <verifytitle description="we should see the user profile title" 
+                    text=".*${userProfile.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+    
+    <!-- Verify the user list screen displays without errors -->
+    <target name="SearchUser" description="Tests search for and displaying all users">
+        <webtest name="searchUser">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click View Users link" url="/admin/users"/>
+                <verifytitle description="we should see the user list title" 
+                    text=".*${userList.title}.*" regex="true"/>
+                <setinputfield description="set search term" name="q" value="matt_raible"/>
+                <clickbutton label="${button.search}" description="Click Search"/>
+                <verifyXPath
+                     description="Count the number of users found"
+                     xpath="count(//table[@id='users']/tbody/tr)"
+                     text="1"/>
+            </steps>
+        </webtest>
+    </target>
+    
+    <!-- Edit a user and then save -->
+    <target name="SaveUser" description="Tests editing and saving a user">
+        <webtest name="saveUser">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Profile link" url="/userform"/>
+                <verifytitle description="we should see the user profile title" 
+                    text=".*${userProfile.title}.*" regex="true"/>
+                <setinputfield description="set address" name="address.address" value="2255 Lane Avenue"/>
+                <setinputfield description="set zipcode" name="address.postalCode" value="59826"/>
+                <clickbutton label="${button.save}" description="Click Save"/>
+                <verifytitle description="display Home if save OK"
+                     text=".*${home.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+    
+    <!-- Add a new user after logging in -->
+    <target name="AddUser" description="Adds a new user profile">
+        <webtest name="addUser">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Add Button" url="/userform?method=Add&amp;from=list"/>
+                <verifytitle description="view the user profile title" text=".*${userProfile.title}.*" regex="true"/>
+                    
+                <setinputfield description="set username" name="username" value="newuser"/>
+<!--                 <setinputfield description="set password" name="password" value="test"/> -->
+<!--                 <setinputfield description="set confirmPassword" name="confirmPassword" value="test"/> -->
+                <setinputfield description="set firstName" name="firstName" value="Test"/>
+                <setinputfield description="set lastName" name="lastName" value="Name"/>
+                <setinputfield description="set city" name="address.city" value="Denver"/>
+                <setinputfield description="select province" name="address.province" value="CO"/>
+                <setselectfield description="select country" name="address.country" value="US"/>
+                <setinputfield description="set postalCode" name="address.postalCode" value="80210"/>
+                <setinputfield description="set email" name="email" value="newuser@raibledesigns.com"/>
+                <setinputfield description="set website" name="website" value="http://raibledesigns.com"/>
+                <setinputfield description="set passwordHint" name="passwordHint" value="test"/>
+                <setselectfield description="select roles" name="userRoles" value="ROLE_USER"/>
+                <clickbutton label="${button.save}" description="Click button 'Save'"/>
+
+                <verifytitle description="view user list screen" text=".*${userList.title}.*" regex="true"/>
+                <verifytext description="verify success message" regex="true"
+                    text='&lt;div class="alert alert-success.*&gt;.*Test Name.*&lt;/div&gt;'/>
+                    
+                <!-- Delete user -->
+                <clickLink description="Click edit user link" label="newuser"/>
+                <prepareDialogResponse description="Confirm delete" dialogType="confirm" response="true"/>
+                <clickbutton label="${button.delete}" description="Click button 'Delete'"/>
+                <verifyNoDialogResponses/>
+                <verifytext description="verify success message" regex="true"
+                    text='&lt;div class="alert alert-success.*&gt;.*Test Name.*&lt;/div&gt;'/>
+                <verifytitle description="display user list" text=".*${userList.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+    
+    <!-- Sign up a new user (no login) -->
+    <target name="Signup" description="Signup a new user">
+        <webtest name="signup">
+            &config;
+            <steps>
+                <invoke description="click signup link" url="/signup"/>
+                <verifytitle description="view signup title" text=".*${signup.title}.*" regex="true"/>
+                
+                <setinputfield description="set username" name="username" value="signup-user"/>
+                <setinputfield description="set password" name="password" value="test"/>
+<!--                 <setinputfield description="set confirmPassword" name="confirmPassword" value="test"/> -->
+                <setinputfield description="set firstName" name="firstName" value="Test"/>
+                <setinputfield description="set lastName" name="lastName" value="Name"/>
+                <setinputfield description="set city" name="address.city" value="Denver"/>
+                <setinputfield description="set state" name="address.province" value="CO"/>
+                <setselectfield description="select country" name="address.country" value="US"/>
+                <setinputfield description="set postalCode" name="address.postalCode" value="80210"/>
+                <setinputfield description="set email" name="email" value="signup-user@raibledesigns.com"/>
+                <setinputfield description="set website" name="website" value="http://raibledesigns.com"/>
+                <setinputfield description="set passwordHint" name="passwordHint" value="test"/>
+                <clickbutton label="${button.register}" description="Click button 'Signup'"/>
+
+                <verifytitle description="view main menu" text=".*${home.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${user.registered}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- View Active Users -->
+    <target name="ActiveUsers" description="View Active Users List">
+        <webtest name="activeUsers">
+            &config;
+            <steps>
+                &login;
+                <invoke description="get activeUsers URL" url="/admin/activeUsers"/>
+                <verifytitle description="we should see the activeUsers title" 
+                    text=".*${activeUsers.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+    
+    <!-- File Upload -->
+    <target name="FileUpload" description="Tests uploading a file">
+        <webtest name="fileUpload">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Upload a File link" url="/fileupload"/>
+                <verifytitle description="we should see file upload form" text=".*${upload.title}.*" regex="true"/>
+                <setinputfield description="set name" name="name" value="Canoo Test File"/>
+                <setFileField description="set file" name="file" fileName="web-tests.xml"/>
+                <clickbutton label="${button.upload}" description="Click Upload"/>
+                <verifytitle description="show file data if upload OK" text=".*${display.title}.*" regex="true"/>
+                <verifytext description="verify original filename displayed on page" text="web-tests.xml"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify CXF is configured properly. -->
+    <target name="WebServices" description="Verifies CXF Services are listed">
+        <webtest name="webservices">
+            &config;
+            <steps>
+                &login;
+                <invoke url="/services/"/>
+                <verifytitle description="should see services listing" text="CXF - Service list.*" regex="true"/>
+                <verifytext description="verify page renders" text="Available SOAP services"/>
+                <verifytext description="verify UserManager exist" text="UserService"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify DWR is configured properly. -->
+    <target name="DWR" description="Verifies DWR Index Page">
+        <webtest name="dwr">
+            &config;
+            <steps>
+                &login;
+                <invoke url="/dwr/"/>
+                <verifytitle description="should DWR Test Index" text="DWR Test Index.*" regex="true"/>
+                <clicklink description="click on UserManager link" label="UserManager"/>
+                <verifytext description="verify next page comes up" text="Methods For: UserManager"/>
+            </steps>
+        </webtest>
+    </target>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!--Mstcustomer-START-->
+    <!-- runs mstcustomer-related tests -->
+    <target name="MstcustomerTests"
+            depends="SearchMstcustomers,EditMstcustomer,SaveMstcustomer,AddMstcustomer,DeleteMstcustomer"
+            description="Call and executes all mstcustomer test cases (targets)">
+        <echo>Successfully ran all Mstcustomer UI tests!</echo>
+    </target>
+
+    <!-- Verify the mstcustomers list screen displays without errors -->
+    <target name="SearchMstcustomers" description="Tests search for and displaying all mstcustomers">
+        <webtest name="searchMstcustomers">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click View Mstcustomer link" url="/mstcustomers"/>
+                <verifytitle description="we should see the mstcustomerList title"
+                    text=".*${mstcustomerList.title}.*" regex="true"/>
+                <setinputfield description="set search term" name="q" value="*"/>
+                <clickbutton label="${button.search}" description="Click Search"/>
+                <verifytitle description="we should see the mstcustomerList title"
+                    text=".*${mstcustomerList.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify the edit mstcustomer screen displays without errors -->
+    <target name="EditMstcustomer" description="Tests editing an existing Mstcustomer's information">
+        <webtest name="editMstcustomer">
+            &config;
+            <steps>
+                &login;
+                <invoke description="View Mstcustomer List" url="/mstcustomers"/>
+                <clicklink label="-1" description="Click edit link"/>
+                <verifytitle description="we should see the mstcustomerDetail title"
+                    text=".*${mstcustomerDetail.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Edit a mstcustomer and then save -->
+    <target name="SaveMstcustomer" description="Tests editing and saving a mstcustomer">
+        <webtest name="saveMstcustomer">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mstcustomer link" url="/mstcustomerform?id=-1"/>
+                <verifytitle description="we should see the mstcustomerDetail title"
+                    text=".*${mstcustomerDetail.title}.*" regex="true"/>
+
+                <!-- update some of the required fields -->
+                <setInputField description="set custName" name="custName" value="McEbAdGrMgWsReZmUnXiUwWnZiVsIqTnHjQbAvYv"/>
+
+                <clickbutton label="${button.save}" description="Click Save"/>
+                <verifytitle description="Page re-appears if save successful"
+                    text=".*${mstcustomerDetail.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mstcustomer.updated}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Add a new Mstcustomer -->
+    <target name="AddMstcustomer" description="Adds a new Mstcustomer">
+        <webtest name="addMstcustomer">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Add Button" url="/mstcustomerform"/>
+                <verifytitle description="we should see the mstcustomerDetail title"
+                    text=".*${mstcustomerDetail.title}.*" regex="true"/>
+
+                <!-- enter required fields -->
+                <setInputField description="set custName" name="custName" value="EeAxDaOpXqVwTaHmUxNqSaIdQcAnIxCrWxXkFqYc"/>
+
+                <clickbutton label="${button.save}" description="Click button 'Save'"/>
+                <verifytitle description="Mstcustomer List appears if save successful"
+                    text=".*${mstcustomerList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mstcustomer.added}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Delete existing mstcustomer -->
+    <target name="DeleteMstcustomer" description="Deletes existing Mstcustomer">
+        <webtest name="deleteMstcustomer">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mstcustomer link" url="/mstcustomerform?id=-1"/>
+                <prepareDialogResponse description="Confirm delete" dialogType="confirm" response="true"/>
+                <clickbutton label="${button.delete}" description="Click button 'Delete'"/>
+                <verifyNoDialogResponses/>
+                <verifytitle description="display Mstcustomer List" text=".*${mstcustomerList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mstcustomer.deleted}"/>
+            </steps>
+        </webtest>
+    </target>    <!--Mstcustomer-END-->
+    <!--Mstuser-START-->
+    <!-- runs mstuser-related tests -->
+    <target name="MstuserTests"
+            depends="SearchMstusers,EditMstuser,SaveMstuser,AddMstuser,DeleteMstuser"
+            description="Call and executes all mstuser test cases (targets)">
+        <echo>Successfully ran all Mstuser UI tests!</echo>
+    </target>
+
+    <!-- Verify the mstusers list screen displays without errors -->
+    <target name="SearchMstusers" description="Tests search for and displaying all mstusers">
+        <webtest name="searchMstusers">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click View Mstuser link" url="/mstusers"/>
+                <verifytitle description="we should see the mstuserList title"
+                    text=".*${mstuserList.title}.*" regex="true"/>
+                <setinputfield description="set search term" name="q" value="*"/>
+                <clickbutton label="${button.search}" description="Click Search"/>
+                <verifytitle description="we should see the mstuserList title"
+                    text=".*${mstuserList.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify the edit mstuser screen displays without errors -->
+    <target name="EditMstuser" description="Tests editing an existing Mstuser's information">
+        <webtest name="editMstuser">
+            &config;
+            <steps>
+                &login;
+                <invoke description="View Mstuser List" url="/mstusers"/>
+                <clicklink label="-1" description="Click edit link"/>
+                <verifytitle description="we should see the mstuserDetail title"
+                    text=".*${mstuserDetail.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Edit a mstuser and then save -->
+    <target name="SaveMstuser" description="Tests editing and saving a mstuser">
+        <webtest name="saveMstuser">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mstuser link" url="/mstuserform?userId=-1"/>
+                <verifytitle description="we should see the mstuserDetail title"
+                    text=".*${mstuserDetail.title}.*" regex="true"/>
+
+                <!-- update some of the required fields -->
+                <setInputField description="set userName" name="userName" value="FjDuZvEyXaLqGhLkHdSv"/>
+                <setInputField description="set userPw" name="userPw" value="XjOgAwZoUhDkFeYmBhSl"/>
+                <setInputField description="set userType" name="userType" value="MbCfRv"/>
+
+                <clickbutton label="${button.save}" description="Click Save"/>
+                <verifytitle description="Page re-appears if save successful"
+                    text=".*${mstuserDetail.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mstuser.updated}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Add a new Mstuser -->
+    <target name="AddMstuser" description="Adds a new Mstuser">
+        <webtest name="addMstuser">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Add Button" url="/mstuserform"/>
+                <verifytitle description="we should see the mstuserDetail title"
+                    text=".*${mstuserDetail.title}.*" regex="true"/>
+
+                <!-- enter required fields -->
+                <setInputField description="set userName" name="userName" value="TwShCnZfStCeVqYaEuKc"/>
+                <setInputField description="set userPw" name="userPw" value="NhZcPeHlQcMcRbYpLhIi"/>
+                <setInputField description="set userType" name="userType" value="OdTvXw"/>
+
+                <clickbutton label="${button.save}" description="Click button 'Save'"/>
+                <verifytitle description="Mstuser List appears if save successful"
+                    text=".*${mstuserList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mstuser.added}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Delete existing mstuser -->
+    <target name="DeleteMstuser" description="Deletes existing Mstuser">
+        <webtest name="deleteMstuser">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mstuser link" url="/mstuserform?userId=-1"/>
+                <prepareDialogResponse description="Confirm delete" dialogType="confirm" response="true"/>
+                <clickbutton label="${button.delete}" description="Click button 'Delete'"/>
+                <verifyNoDialogResponses/>
+                <verifytitle description="display Mstuser List" text=".*${mstuserList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mstuser.deleted}"/>
+            </steps>
+        </webtest>
+    </target>    <!--Mstuser-END-->
+    <!--Mststyleheader-START-->
+    <!-- runs mststyleheader-related tests -->
+    <target name="MststyleheaderTests"
+            depends="SearchMststyleheaders,EditMststyleheader,SaveMststyleheader,AddMststyleheader,DeleteMststyleheader"
+            description="Call and executes all mststyleheader test cases (targets)">
+        <echo>Successfully ran all Mststyleheader UI tests!</echo>
+    </target>
+
+    <!-- Verify the mststyleheaders list screen displays without errors -->
+    <target name="SearchMststyleheaders" description="Tests search for and displaying all mststyleheaders">
+        <webtest name="searchMststyleheaders">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click View Mststyleheader link" url="/mststyleheaders"/>
+                <verifytitle description="we should see the mststyleheaderList title"
+                    text=".*${mststyleheaderList.title}.*" regex="true"/>
+                <setinputfield description="set search term" name="q" value="*"/>
+                <clickbutton label="${button.search}" description="Click Search"/>
+                <verifytitle description="we should see the mststyleheaderList title"
+                    text=".*${mststyleheaderList.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify the edit mststyleheader screen displays without errors -->
+    <target name="EditMststyleheader" description="Tests editing an existing Mststyleheader's information">
+        <webtest name="editMststyleheader">
+            &config;
+            <steps>
+                &login;
+                <invoke description="View Mststyleheader List" url="/mststyleheaders"/>
+                <clicklink label="-1" description="Click edit link"/>
+                <verifytitle description="we should see the mststyleheaderDetail title"
+                    text=".*${mststyleheaderDetail.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Edit a mststyleheader and then save -->
+    <target name="SaveMststyleheader" description="Tests editing and saving a mststyleheader">
+        <webtest name="saveMststyleheader">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mststyleheader link" url="/mststyleheaderform?id=-1"/>
+                <verifytitle description="we should see the mststyleheaderDetail title"
+                    text=".*${mststyleheaderDetail.title}.*" regex="true"/>
+
+                <!-- update some of the required fields -->
+                <setInputField description="set flag" name="flag" value="KuKxLhNwFyCa"/>
+                <setInputField description="set productRange" name="productRange" value="GuSjNy"/>
+                <setInputField description="set userId" name="userId" value="ZtRoZmCdMc"/>
+
+                <clickbutton label="${button.save}" description="Click Save"/>
+                <verifytitle description="Page re-appears if save successful"
+                    text=".*${mststyleheaderDetail.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststyleheader.updated}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Add a new Mststyleheader -->
+    <target name="AddMststyleheader" description="Adds a new Mststyleheader">
+        <webtest name="addMststyleheader">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Add Button" url="/mststyleheaderform"/>
+                <verifytitle description="we should see the mststyleheaderDetail title"
+                    text=".*${mststyleheaderDetail.title}.*" regex="true"/>
+
+                <!-- enter required fields -->
+                <setInputField description="set flag" name="flag" value="IxBmAzHkVeJo"/>
+                <setInputField description="set productRange" name="productRange" value="VeQwYi"/>
+                <setInputField description="set userId" name="userId" value="CkHqSjFmCg"/>
+
+                <clickbutton label="${button.save}" description="Click button 'Save'"/>
+                <verifytitle description="Mststyleheader List appears if save successful"
+                    text=".*${mststyleheaderList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststyleheader.added}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Delete existing mststyleheader -->
+    <target name="DeleteMststyleheader" description="Deletes existing Mststyleheader">
+        <webtest name="deleteMststyleheader">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mststyleheader link" url="/mststyleheaderform?id=-1"/>
+                <prepareDialogResponse description="Confirm delete" dialogType="confirm" response="true"/>
+                <clickbutton label="${button.delete}" description="Click button 'Delete'"/>
+                <verifyNoDialogResponses/>
+                <verifytitle description="display Mststyleheader List" text=".*${mststyleheaderList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststyleheader.deleted}"/>
+            </steps>
+        </webtest>
+    </target>    <!--Mststyleheader-END-->
+    <!--Mststylerouteoperation-START-->
+    <!-- runs mststylerouteoperation-related tests -->
+    <target name="MststylerouteoperationTests"
+            depends="SearchMststylerouteoperations,EditMststylerouteoperation,SaveMststylerouteoperation,AddMststylerouteoperation,DeleteMststylerouteoperation"
+            description="Call and executes all mststylerouteoperation test cases (targets)">
+        <echo>Successfully ran all Mststylerouteoperation UI tests!</echo>
+    </target>
+
+    <!-- Verify the mststylerouteoperations list screen displays without errors -->
+    <target name="SearchMststylerouteoperations" description="Tests search for and displaying all mststylerouteoperations">
+        <webtest name="searchMststylerouteoperations">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click View Mststylerouteoperation link" url="/mststylerouteoperations"/>
+                <verifytitle description="we should see the mststylerouteoperationList title"
+                    text=".*${mststylerouteoperationList.title}.*" regex="true"/>
+                <setinputfield description="set search term" name="q" value="*"/>
+                <clickbutton label="${button.search}" description="Click Search"/>
+                <verifytitle description="we should see the mststylerouteoperationList title"
+                    text=".*${mststylerouteoperationList.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify the edit mststylerouteoperation screen displays without errors -->
+    <target name="EditMststylerouteoperation" description="Tests editing an existing Mststylerouteoperation's information">
+        <webtest name="editMststylerouteoperation">
+            &config;
+            <steps>
+                &login;
+                <invoke description="View Mststylerouteoperation List" url="/mststylerouteoperations"/>
+                <clicklink label="-1" description="Click edit link"/>
+                <verifytitle description="we should see the mststylerouteoperationDetail title"
+                    text=".*${mststylerouteoperationDetail.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Edit a mststylerouteoperation and then save -->
+    <target name="SaveMststylerouteoperation" description="Tests editing and saving a mststylerouteoperation">
+        <webtest name="saveMststylerouteoperation">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mststylerouteoperation link" url="/mststylerouteoperationform?id=-1"/>
+                <verifytitle description="we should see the mststylerouteoperationDetail title"
+                    text=".*${mststylerouteoperationDetail.title}.*" regex="true"/>
+
+                <!-- update some of the required fields -->
+
+                <clickbutton label="${button.save}" description="Click Save"/>
+                <verifytitle description="Page re-appears if save successful"
+                    text=".*${mststylerouteoperationDetail.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststylerouteoperation.updated}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Add a new Mststylerouteoperation -->
+    <target name="AddMststylerouteoperation" description="Adds a new Mststylerouteoperation">
+        <webtest name="addMststylerouteoperation">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Add Button" url="/mststylerouteoperationform"/>
+                <verifytitle description="we should see the mststylerouteoperationDetail title"
+                    text=".*${mststylerouteoperationDetail.title}.*" regex="true"/>
+
+                <!-- enter required fields -->
+
+                <clickbutton label="${button.save}" description="Click button 'Save'"/>
+                <verifytitle description="Mststylerouteoperation List appears if save successful"
+                    text=".*${mststylerouteoperationList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststylerouteoperation.added}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Delete existing mststylerouteoperation -->
+    <target name="DeleteMststylerouteoperation" description="Deletes existing Mststylerouteoperation">
+        <webtest name="deleteMststylerouteoperation">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mststylerouteoperation link" url="/mststylerouteoperationform?id=-1"/>
+                <prepareDialogResponse description="Confirm delete" dialogType="confirm" response="true"/>
+                <clickbutton label="${button.delete}" description="Click button 'Delete'"/>
+                <verifyNoDialogResponses/>
+                <verifytitle description="display Mststylerouteoperation List" text=".*${mststylerouteoperationList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststylerouteoperation.deleted}"/>
+            </steps>
+        </webtest>
+    </target>    <!--Mststylerouteoperation-END-->
+    <!--Mststyleoperation-START-->
+    <!-- runs mststyleoperation-related tests -->
+    <target name="MststyleoperationTests"
+            depends="SearchMststyleoperations,EditMststyleoperation,SaveMststyleoperation,AddMststyleoperation,DeleteMststyleoperation"
+            description="Call and executes all mststyleoperation test cases (targets)">
+        <echo>Successfully ran all Mststyleoperation UI tests!</echo>
+    </target>
+
+    <!-- Verify the mststyleoperations list screen displays without errors -->
+    <target name="SearchMststyleoperations" description="Tests search for and displaying all mststyleoperations">
+        <webtest name="searchMststyleoperations">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click View Mststyleoperation link" url="/mststyleoperations"/>
+                <verifytitle description="we should see the mststyleoperationList title"
+                    text=".*${mststyleoperationList.title}.*" regex="true"/>
+                <setinputfield description="set search term" name="q" value="*"/>
+                <clickbutton label="${button.search}" description="Click Search"/>
+                <verifytitle description="we should see the mststyleoperationList title"
+                    text=".*${mststyleoperationList.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify the edit mststyleoperation screen displays without errors -->
+    <target name="EditMststyleoperation" description="Tests editing an existing Mststyleoperation's information">
+        <webtest name="editMststyleoperation">
+            &config;
+            <steps>
+                &login;
+                <invoke description="View Mststyleoperation List" url="/mststyleoperations"/>
+                <clicklink label="-1" description="Click edit link"/>
+                <verifytitle description="we should see the mststyleoperationDetail title"
+                    text=".*${mststyleoperationDetail.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Edit a mststyleoperation and then save -->
+    <target name="SaveMststyleoperation" description="Tests editing and saving a mststyleoperation">
+        <webtest name="saveMststyleoperation">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mststyleoperation link" url="/mststyleoperationform?id=-1"/>
+                <verifytitle description="we should see the mststyleoperationDetail title"
+                    text=".*${mststyleoperationDetail.title}.*" regex="true"/>
+
+                <!-- update some of the required fields -->
+
+                <clickbutton label="${button.save}" description="Click Save"/>
+                <verifytitle description="Page re-appears if save successful"
+                    text=".*${mststyleoperationDetail.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststyleoperation.updated}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Add a new Mststyleoperation -->
+    <target name="AddMststyleoperation" description="Adds a new Mststyleoperation">
+        <webtest name="addMststyleoperation">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Add Button" url="/mststyleoperationform"/>
+                <verifytitle description="we should see the mststyleoperationDetail title"
+                    text=".*${mststyleoperationDetail.title}.*" regex="true"/>
+
+                <!-- enter required fields -->
+
+                <clickbutton label="${button.save}" description="Click button 'Save'"/>
+                <verifytitle description="Mststyleoperation List appears if save successful"
+                    text=".*${mststyleoperationList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststyleoperation.added}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Delete existing mststyleoperation -->
+    <target name="DeleteMststyleoperation" description="Deletes existing Mststyleoperation">
+        <webtest name="deleteMststyleoperation">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mststyleoperation link" url="/mststyleoperationform?id=-1"/>
+                <prepareDialogResponse description="Confirm delete" dialogType="confirm" response="true"/>
+                <clickbutton label="${button.delete}" description="Click button 'Delete'"/>
+                <verifyNoDialogResponses/>
+                <verifytitle description="display Mststyleoperation List" text=".*${mststyleoperationList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststyleoperation.deleted}"/>
+            </steps>
+        </webtest>
+    </target>    <!--Mststyleoperation-END-->
+    <!--Mststylerouteopdemmap-START-->
+    <!-- runs mststylerouteopdemmap-related tests -->
+    <target name="MststylerouteopdemmapTests"
+            depends="SearchMststylerouteopdemmaps,EditMststylerouteopdemmap,SaveMststylerouteopdemmap,AddMststylerouteopdemmap,DeleteMststylerouteopdemmap"
+            description="Call and executes all mststylerouteopdemmap test cases (targets)">
+        <echo>Successfully ran all Mststylerouteopdemmap UI tests!</echo>
+    </target>
+
+    <!-- Verify the mststylerouteopdemmaps list screen displays without errors -->
+    <target name="SearchMststylerouteopdemmaps" description="Tests search for and displaying all mststylerouteopdemmaps">
+        <webtest name="searchMststylerouteopdemmaps">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click View Mststylerouteopdemmap link" url="/mststylerouteopdemmaps"/>
+                <verifytitle description="we should see the mststylerouteopdemmapList title"
+                    text=".*${mststylerouteopdemmapList.title}.*" regex="true"/>
+                <setinputfield description="set search term" name="q" value="*"/>
+                <clickbutton label="${button.search}" description="Click Search"/>
+                <verifytitle description="we should see the mststylerouteopdemmapList title"
+                    text=".*${mststylerouteopdemmapList.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify the edit mststylerouteopdemmap screen displays without errors -->
+    <target name="EditMststylerouteopdemmap" description="Tests editing an existing Mststylerouteopdemmap's information">
+        <webtest name="editMststylerouteopdemmap">
+            &config;
+            <steps>
+                &login;
+                <invoke description="View Mststylerouteopdemmap List" url="/mststylerouteopdemmaps"/>
+                <clicklink label="-1" description="Click edit link"/>
+                <verifytitle description="we should see the mststylerouteopdemmapDetail title"
+                    text=".*${mststylerouteopdemmapDetail.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Edit a mststylerouteopdemmap and then save -->
+    <target name="SaveMststylerouteopdemmap" description="Tests editing and saving a mststylerouteopdemmap">
+        <webtest name="saveMststylerouteopdemmap">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mststylerouteopdemmap link" url="/mststylerouteopdemmapform?id=-1"/>
+                <verifytitle description="we should see the mststylerouteopdemmapDetail title"
+                    text=".*${mststylerouteopdemmapDetail.title}.*" regex="true"/>
+
+                <!-- update some of the required fields -->
+
+                <clickbutton label="${button.save}" description="Click Save"/>
+                <verifytitle description="Page re-appears if save successful"
+                    text=".*${mststylerouteopdemmapDetail.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststylerouteopdemmap.updated}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Add a new Mststylerouteopdemmap -->
+    <target name="AddMststylerouteopdemmap" description="Adds a new Mststylerouteopdemmap">
+        <webtest name="addMststylerouteopdemmap">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Add Button" url="/mststylerouteopdemmapform"/>
+                <verifytitle description="we should see the mststylerouteopdemmapDetail title"
+                    text=".*${mststylerouteopdemmapDetail.title}.*" regex="true"/>
+
+                <!-- enter required fields -->
+
+                <clickbutton label="${button.save}" description="Click button 'Save'"/>
+                <verifytitle description="Mststylerouteopdemmap List appears if save successful"
+                    text=".*${mststylerouteopdemmapList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststylerouteopdemmap.added}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Delete existing mststylerouteopdemmap -->
+    <target name="DeleteMststylerouteopdemmap" description="Deletes existing Mststylerouteopdemmap">
+        <webtest name="deleteMststylerouteopdemmap">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mststylerouteopdemmap link" url="/mststylerouteopdemmapform?id=-1"/>
+                <prepareDialogResponse description="Confirm delete" dialogType="confirm" response="true"/>
+                <clickbutton label="${button.delete}" description="Click button 'Delete'"/>
+                <verifyNoDialogResponses/>
+                <verifytitle description="display Mststylerouteopdemmap List" text=".*${mststylerouteopdemmapList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststylerouteopdemmap.deleted}"/>
+            </steps>
+        </webtest>
+    </target>    <!--Mststylerouteopdemmap-END-->
+    <!--Mststylewippoints-START-->
+    <!-- runs mststylewippoints-related tests -->
+    <target name="MststylewippointsTests"
+            depends="SearchMststylewippointss,EditMststylewippoints,SaveMststylewippoints,AddMststylewippoints,DeleteMststylewippoints"
+            description="Call and executes all mststylewippoints test cases (targets)">
+        <echo>Successfully ran all Mststylewippoints UI tests!</echo>
+    </target>
+
+    <!-- Verify the mststylewippointss list screen displays without errors -->
+    <target name="SearchMststylewippointss" description="Tests search for and displaying all mststylewippointss">
+        <webtest name="searchMststylewippointss">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click View Mststylewippoints link" url="/mststylewippointss"/>
+                <verifytitle description="we should see the mststylewippointsList title"
+                    text=".*${mststylewippointsList.title}.*" regex="true"/>
+                <setinputfield description="set search term" name="q" value="*"/>
+                <clickbutton label="${button.search}" description="Click Search"/>
+                <verifytitle description="we should see the mststylewippointsList title"
+                    text=".*${mststylewippointsList.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify the edit mststylewippoints screen displays without errors -->
+    <target name="EditMststylewippoints" description="Tests editing an existing Mststylewippoints's information">
+        <webtest name="editMststylewippoints">
+            &config;
+            <steps>
+                &login;
+                <invoke description="View Mststylewippoints List" url="/mststylewippointss"/>
+                <clicklink label="-1" description="Click edit link"/>
+                <verifytitle description="we should see the mststylewippointsDetail title"
+                    text=".*${mststylewippointsDetail.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Edit a mststylewippoints and then save -->
+    <target name="SaveMststylewippoints" description="Tests editing and saving a mststylewippoints">
+        <webtest name="saveMststylewippoints">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mststylewippoints link" url="/mststylewippointsform?wippointCode=-1"/>
+                <verifytitle description="we should see the mststylewippointsDetail title"
+                    text=".*${mststylewippointsDetail.title}.*" regex="true"/>
+
+                <!-- update some of the required fields -->
+
+                <clickbutton label="${button.save}" description="Click Save"/>
+                <verifytitle description="Page re-appears if save successful"
+                    text=".*${mststylewippointsDetail.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststylewippoints.updated}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Add a new Mststylewippoints -->
+    <target name="AddMststylewippoints" description="Adds a new Mststylewippoints">
+        <webtest name="addMststylewippoints">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Add Button" url="/mststylewippointsform"/>
+                <verifytitle description="we should see the mststylewippointsDetail title"
+                    text=".*${mststylewippointsDetail.title}.*" regex="true"/>
+
+                <!-- enter required fields -->
+
+                <clickbutton label="${button.save}" description="Click button 'Save'"/>
+                <verifytitle description="Mststylewippoints List appears if save successful"
+                    text=".*${mststylewippointsList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststylewippoints.added}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Delete existing mststylewippoints -->
+    <target name="DeleteMststylewippoints" description="Deletes existing Mststylewippoints">
+        <webtest name="deleteMststylewippoints">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mststylewippoints link" url="/mststylewippointsform?wippointCode=-1"/>
+                <prepareDialogResponse description="Confirm delete" dialogType="confirm" response="true"/>
+                <clickbutton label="${button.delete}" description="Click button 'Delete'"/>
+                <verifyNoDialogResponses/>
+                <verifytitle description="display Mststylewippoints List" text=".*${mststylewippointsList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststylewippoints.deleted}"/>
+            </steps>
+        </webtest>
+    </target>    <!--Mststylewippoints-END-->
+    <!--Mststylewippointitemtype-START-->
+    <!-- runs mststylewippointitemtype-related tests -->
+    <target name="MststylewippointitemtypeTests"
+            depends="SearchMststylewippointitemtypes,EditMststylewippointitemtype,SaveMststylewippointitemtype,AddMststylewippointitemtype,DeleteMststylewippointitemtype"
+            description="Call and executes all mststylewippointitemtype test cases (targets)">
+        <echo>Successfully ran all Mststylewippointitemtype UI tests!</echo>
+    </target>
+
+    <!-- Verify the mststylewippointitemtypes list screen displays without errors -->
+    <target name="SearchMststylewippointitemtypes" description="Tests search for and displaying all mststylewippointitemtypes">
+        <webtest name="searchMststylewippointitemtypes">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click View Mststylewippointitemtype link" url="/mststylewippointitemtypes"/>
+                <verifytitle description="we should see the mststylewippointitemtypeList title"
+                    text=".*${mststylewippointitemtypeList.title}.*" regex="true"/>
+                <setinputfield description="set search term" name="q" value="*"/>
+                <clickbutton label="${button.search}" description="Click Search"/>
+                <verifytitle description="we should see the mststylewippointitemtypeList title"
+                    text=".*${mststylewippointitemtypeList.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify the edit mststylewippointitemtype screen displays without errors -->
+    <target name="EditMststylewippointitemtype" description="Tests editing an existing Mststylewippointitemtype's information">
+        <webtest name="editMststylewippointitemtype">
+            &config;
+            <steps>
+                &login;
+                <invoke description="View Mststylewippointitemtype List" url="/mststylewippointitemtypes"/>
+                <clicklink label="-1" description="Click edit link"/>
+                <verifytitle description="we should see the mststylewippointitemtypeDetail title"
+                    text=".*${mststylewippointitemtypeDetail.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Edit a mststylewippointitemtype and then save -->
+    <target name="SaveMststylewippointitemtype" description="Tests editing and saving a mststylewippointitemtype">
+        <webtest name="saveMststylewippointitemtype">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mststylewippointitemtype link" url="/mststylewippointitemtypeform?id=-1"/>
+                <verifytitle description="we should see the mststylewippointitemtypeDetail title"
+                    text=".*${mststylewippointitemtypeDetail.title}.*" regex="true"/>
+
+                <!-- update some of the required fields -->
+
+                <clickbutton label="${button.save}" description="Click Save"/>
+                <verifytitle description="Page re-appears if save successful"
+                    text=".*${mststylewippointitemtypeDetail.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststylewippointitemtype.updated}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Add a new Mststylewippointitemtype -->
+    <target name="AddMststylewippointitemtype" description="Adds a new Mststylewippointitemtype">
+        <webtest name="addMststylewippointitemtype">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Add Button" url="/mststylewippointitemtypeform"/>
+                <verifytitle description="we should see the mststylewippointitemtypeDetail title"
+                    text=".*${mststylewippointitemtypeDetail.title}.*" regex="true"/>
+
+                <!-- enter required fields -->
+
+                <clickbutton label="${button.save}" description="Click button 'Save'"/>
+                <verifytitle description="Mststylewippointitemtype List appears if save successful"
+                    text=".*${mststylewippointitemtypeList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststylewippointitemtype.added}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Delete existing mststylewippointitemtype -->
+    <target name="DeleteMststylewippointitemtype" description="Deletes existing Mststylewippointitemtype">
+        <webtest name="deleteMststylewippointitemtype">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mststylewippointitemtype link" url="/mststylewippointitemtypeform?id=-1"/>
+                <prepareDialogResponse description="Confirm delete" dialogType="confirm" response="true"/>
+                <clickbutton label="${button.delete}" description="Click button 'Delete'"/>
+                <verifyNoDialogResponses/>
+                <verifytitle description="display Mststylewippointitemtype List" text=".*${mststylewippointitemtypeList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mststylewippointitemtype.deleted}"/>
+            </steps>
+        </webtest>
+    </target>    <!--Mststylewippointitemtype-END-->
+    <!--Merprecostsheet-START-->
+    <!-- runs merprecostsheet-related tests -->
+    <target name="MerprecostsheetTests"
+            depends="SearchMerprecostsheets,EditMerprecostsheet,SaveMerprecostsheet,AddMerprecostsheet,DeleteMerprecostsheet"
+            description="Call and executes all merprecostsheet test cases (targets)">
+        <echo>Successfully ran all Merprecostsheet UI tests!</echo>
+    </target>
+
+    <!-- Verify the merprecostsheets list screen displays without errors -->
+    <target name="SearchMerprecostsheets" description="Tests search for and displaying all merprecostsheets">
+        <webtest name="searchMerprecostsheets">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click View Merprecostsheet link" url="/merprecostsheets"/>
+                <verifytitle description="we should see the merprecostsheetList title"
+                    text=".*${merprecostsheetList.title}.*" regex="true"/>
+                <setinputfield description="set search term" name="q" value="*"/>
+                <clickbutton label="${button.search}" description="Click Search"/>
+                <verifytitle description="we should see the merprecostsheetList title"
+                    text=".*${merprecostsheetList.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify the edit merprecostsheet screen displays without errors -->
+    <target name="EditMerprecostsheet" description="Tests editing an existing Merprecostsheet's information">
+        <webtest name="editMerprecostsheet">
+            &config;
+            <steps>
+                &login;
+                <invoke description="View Merprecostsheet List" url="/merprecostsheets"/>
+                <clicklink label="-1" description="Click edit link"/>
+                <verifytitle description="we should see the merprecostsheetDetail title"
+                    text=".*${merprecostsheetDetail.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Edit a merprecostsheet and then save -->
+    <target name="SaveMerprecostsheet" description="Tests editing and saving a merprecostsheet">
+        <webtest name="saveMerprecostsheet">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Merprecostsheet link" url="/merprecostsheetform?id=-1"/>
+                <verifytitle description="we should see the merprecostsheetDetail title"
+                    text=".*${merprecostsheetDetail.title}.*" regex="true"/>
+
+                <!-- update some of the required fields -->
+                <setInputField description="set costsheetType" name="costsheetType" value="EfCjXnWvXb"/>
+                <setInputField description="set season" name="season" value="LeSwBqMiDk"/>
+
+                <clickbutton label="${button.save}" description="Click Save"/>
+                <verifytitle description="Page re-appears if save successful"
+                    text=".*${merprecostsheetDetail.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${merprecostsheet.updated}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Add a new Merprecostsheet -->
+    <target name="AddMerprecostsheet" description="Adds a new Merprecostsheet">
+        <webtest name="addMerprecostsheet">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Add Button" url="/merprecostsheetform"/>
+                <verifytitle description="we should see the merprecostsheetDetail title"
+                    text=".*${merprecostsheetDetail.title}.*" regex="true"/>
+
+                <!-- enter required fields -->
+                <setInputField description="set costsheetType" name="costsheetType" value="WhJaKdWeNm"/>
+                <setInputField description="set season" name="season" value="JcQzGyNwHj"/>
+
+                <clickbutton label="${button.save}" description="Click button 'Save'"/>
+                <verifytitle description="Merprecostsheet List appears if save successful"
+                    text=".*${merprecostsheetList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${merprecostsheet.added}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Delete existing merprecostsheet -->
+    <target name="DeleteMerprecostsheet" description="Deletes existing Merprecostsheet">
+        <webtest name="deleteMerprecostsheet">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Merprecostsheet link" url="/merprecostsheetform?id=-1"/>
+                <prepareDialogResponse description="Confirm delete" dialogType="confirm" response="true"/>
+                <clickbutton label="${button.delete}" description="Click button 'Delete'"/>
+                <verifyNoDialogResponses/>
+                <verifytitle description="display Merprecostsheet List" text=".*${merprecostsheetList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${merprecostsheet.deleted}"/>
+            </steps>
+        </webtest>
+    </target>    <!--Merprecostsheet-END-->
+    <!--Mercostsheethdr-START-->
+    <!-- runs mercostsheethdr-related tests -->
+    <target name="MercostsheethdrTests"
+            depends="SearchMercostsheethdrs,EditMercostsheethdr,SaveMercostsheethdr,AddMercostsheethdr,DeleteMercostsheethdr"
+            description="Call and executes all mercostsheethdr test cases (targets)">
+        <echo>Successfully ran all Mercostsheethdr UI tests!</echo>
+    </target>
+
+    <!-- Verify the mercostsheethdrs list screen displays without errors -->
+    <target name="SearchMercostsheethdrs" description="Tests search for and displaying all mercostsheethdrs">
+        <webtest name="searchMercostsheethdrs">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click View Mercostsheethdr link" url="/mercostsheethdrs"/>
+                <verifytitle description="we should see the mercostsheethdrList title"
+                    text=".*${mercostsheethdrList.title}.*" regex="true"/>
+                <setinputfield description="set search term" name="q" value="*"/>
+                <clickbutton label="${button.search}" description="Click Search"/>
+                <verifytitle description="we should see the mercostsheethdrList title"
+                    text=".*${mercostsheethdrList.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify the edit mercostsheethdr screen displays without errors -->
+    <target name="EditMercostsheethdr" description="Tests editing an existing Mercostsheethdr's information">
+        <webtest name="editMercostsheethdr">
+            &config;
+            <steps>
+                &login;
+                <invoke description="View Mercostsheethdr List" url="/mercostsheethdrs"/>
+                <clicklink label="-1" description="Click edit link"/>
+                <verifytitle description="we should see the mercostsheethdrDetail title"
+                    text=".*${mercostsheethdrDetail.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Edit a mercostsheethdr and then save -->
+    <target name="SaveMercostsheethdr" description="Tests editing and saving a mercostsheethdr">
+        <webtest name="saveMercostsheethdr">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mercostsheethdr link" url="/mercostsheethdrform?id=-1"/>
+                <verifytitle description="we should see the mercostsheethdrDetail title"
+                    text=".*${mercostsheethdrDetail.title}.*" regex="true"/>
+
+                <!-- update some of the required fields -->
+                <setInputField description="set season" name="season" value="BxGlKjKlWn"/>
+
+                <clickbutton label="${button.save}" description="Click Save"/>
+                <verifytitle description="Page re-appears if save successful"
+                    text=".*${mercostsheethdrDetail.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mercostsheethdr.updated}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Add a new Mercostsheethdr -->
+    <target name="AddMercostsheethdr" description="Adds a new Mercostsheethdr">
+        <webtest name="addMercostsheethdr">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Add Button" url="/mercostsheethdrform"/>
+                <verifytitle description="we should see the mercostsheethdrDetail title"
+                    text=".*${mercostsheethdrDetail.title}.*" regex="true"/>
+
+                <!-- enter required fields -->
+                <setInputField description="set season" name="season" value="GiXyZvSvBq"/>
+
+                <clickbutton label="${button.save}" description="Click button 'Save'"/>
+                <verifytitle description="Mercostsheethdr List appears if save successful"
+                    text=".*${mercostsheethdrList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mercostsheethdr.added}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Delete existing mercostsheethdr -->
+    <target name="DeleteMercostsheethdr" description="Deletes existing Mercostsheethdr">
+        <webtest name="deleteMercostsheethdr">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Mercostsheethdr link" url="/mercostsheethdrform?id=-1"/>
+                <prepareDialogResponse description="Confirm delete" dialogType="confirm" response="true"/>
+                <clickbutton label="${button.delete}" description="Click button 'Delete'"/>
+                <verifyNoDialogResponses/>
+                <verifytitle description="display Mercostsheethdr List" text=".*${mercostsheethdrList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${mercostsheethdr.deleted}"/>
+            </steps>
+        </webtest>
+    </target>    <!--Mercostsheethdr-END-->
+    <!--Merordersheethdr-START-->
+    <!-- runs merordersheethdr-related tests -->
+    <target name="MerordersheethdrTests"
+            depends="SearchMerordersheethdrs,EditMerordersheethdr,SaveMerordersheethdr,AddMerordersheethdr,DeleteMerordersheethdr"
+            description="Call and executes all merordersheethdr test cases (targets)">
+        <echo>Successfully ran all Merordersheethdr UI tests!</echo>
+    </target>
+
+    <!-- Verify the merordersheethdrs list screen displays without errors -->
+    <target name="SearchMerordersheethdrs" description="Tests search for and displaying all merordersheethdrs">
+        <webtest name="searchMerordersheethdrs">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click View Merordersheethdr link" url="/merordersheethdrs"/>
+                <verifytitle description="we should see the merordersheethdrList title"
+                    text=".*${merordersheethdrList.title}.*" regex="true"/>
+                <setinputfield description="set search term" name="q" value="*"/>
+                <clickbutton label="${button.search}" description="Click Search"/>
+                <verifytitle description="we should see the merordersheethdrList title"
+                    text=".*${merordersheethdrList.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify the edit merordersheethdr screen displays without errors -->
+    <target name="EditMerordersheethdr" description="Tests editing an existing Merordersheethdr's information">
+        <webtest name="editMerordersheethdr">
+            &config;
+            <steps>
+                &login;
+                <invoke description="View Merordersheethdr List" url="/merordersheethdrs"/>
+                <clicklink label="-1" description="Click edit link"/>
+                <verifytitle description="we should see the merordersheethdrDetail title"
+                    text=".*${merordersheethdrDetail.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Edit a merordersheethdr and then save -->
+    <target name="SaveMerordersheethdr" description="Tests editing and saving a merordersheethdr">
+        <webtest name="saveMerordersheethdr">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Merordersheethdr link" url="/merordersheethdrform?id=-1"/>
+                <verifytitle description="we should see the merordersheethdrDetail title"
+                    text=".*${merordersheethdrDetail.title}.*" regex="true"/>
+
+                <!-- update some of the required fields -->
+
+                <clickbutton label="${button.save}" description="Click Save"/>
+                <verifytitle description="Page re-appears if save successful"
+                    text=".*${merordersheethdrDetail.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${merordersheethdr.updated}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Add a new Merordersheethdr -->
+    <target name="AddMerordersheethdr" description="Adds a new Merordersheethdr">
+        <webtest name="addMerordersheethdr">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Add Button" url="/merordersheethdrform"/>
+                <verifytitle description="we should see the merordersheethdrDetail title"
+                    text=".*${merordersheethdrDetail.title}.*" regex="true"/>
+
+                <!-- enter required fields -->
+
+                <clickbutton label="${button.save}" description="Click button 'Save'"/>
+                <verifytitle description="Merordersheethdr List appears if save successful"
+                    text=".*${merordersheethdrList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${merordersheethdr.added}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Delete existing merordersheethdr -->
+    <target name="DeleteMerordersheethdr" description="Deletes existing Merordersheethdr">
+        <webtest name="deleteMerordersheethdr">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Merordersheethdr link" url="/merordersheethdrform?id=-1"/>
+                <prepareDialogResponse description="Confirm delete" dialogType="confirm" response="true"/>
+                <clickbutton label="${button.delete}" description="Click button 'Delete'"/>
+                <verifyNoDialogResponses/>
+                <verifytitle description="display Merordersheethdr List" text=".*${merordersheethdrList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${merordersheethdr.deleted}"/>
+            </steps>
+        </webtest>
+    </target>    <!--Merordersheethdr-END-->
+    <!--Merordersheetorder-START-->
+    <!-- runs merordersheetorder-related tests -->
+    <target name="MerordersheetorderTests"
+            depends="SearchMerordersheetorders,EditMerordersheetorder,SaveMerordersheetorder,AddMerordersheetorder,DeleteMerordersheetorder"
+            description="Call and executes all merordersheetorder test cases (targets)">
+        <echo>Successfully ran all Merordersheetorder UI tests!</echo>
+    </target>
+
+    <!-- Verify the merordersheetorders list screen displays without errors -->
+    <target name="SearchMerordersheetorders" description="Tests search for and displaying all merordersheetorders">
+        <webtest name="searchMerordersheetorders">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click View Merordersheetorder link" url="/merordersheetorders"/>
+                <verifytitle description="we should see the merordersheetorderList title"
+                    text=".*${merordersheetorderList.title}.*" regex="true"/>
+                <setinputfield description="set search term" name="q" value="*"/>
+                <clickbutton label="${button.search}" description="Click Search"/>
+                <verifytitle description="we should see the merordersheetorderList title"
+                    text=".*${merordersheetorderList.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Verify the edit merordersheetorder screen displays without errors -->
+    <target name="EditMerordersheetorder" description="Tests editing an existing Merordersheetorder's information">
+        <webtest name="editMerordersheetorder">
+            &config;
+            <steps>
+                &login;
+                <invoke description="View Merordersheetorder List" url="/merordersheetorders"/>
+                <clicklink label="-1" description="Click edit link"/>
+                <verifytitle description="we should see the merordersheetorderDetail title"
+                    text=".*${merordersheetorderDetail.title}.*" regex="true"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Edit a merordersheetorder and then save -->
+    <target name="SaveMerordersheetorder" description="Tests editing and saving a merordersheetorder">
+        <webtest name="saveMerordersheetorder">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Merordersheetorder link" url="/merordersheetorderform?id=-1"/>
+                <verifytitle description="we should see the merordersheetorderDetail title"
+                    text=".*${merordersheetorderDetail.title}.*" regex="true"/>
+
+                <!-- update some of the required fields -->
+
+                <clickbutton label="${button.save}" description="Click Save"/>
+                <verifytitle description="Page re-appears if save successful"
+                    text=".*${merordersheetorderDetail.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${merordersheetorder.updated}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Add a new Merordersheetorder -->
+    <target name="AddMerordersheetorder" description="Adds a new Merordersheetorder">
+        <webtest name="addMerordersheetorder">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Add Button" url="/merordersheetorderform"/>
+                <verifytitle description="we should see the merordersheetorderDetail title"
+                    text=".*${merordersheetorderDetail.title}.*" regex="true"/>
+
+                <!-- enter required fields -->
+
+                <clickbutton label="${button.save}" description="Click button 'Save'"/>
+                <verifytitle description="Merordersheetorder List appears if save successful"
+                    text=".*${merordersheetorderList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${merordersheetorder.added}"/>
+            </steps>
+        </webtest>
+    </target>
+
+    <!-- Delete existing merordersheetorder -->
+    <target name="DeleteMerordersheetorder" description="Deletes existing Merordersheetorder">
+        <webtest name="deleteMerordersheetorder">
+            &config;
+            <steps>
+                &login;
+                <invoke description="click Edit Merordersheetorder link" url="/merordersheetorderform?id=-1"/>
+                <prepareDialogResponse description="Confirm delete" dialogType="confirm" response="true"/>
+                <clickbutton label="${button.delete}" description="Click button 'Delete'"/>
+                <verifyNoDialogResponses/>
+                <verifytitle description="display Merordersheetorder List" text=".*${merordersheetorderList.title}.*" regex="true"/>
+                <verifytext description="verify success message" text="${merordersheetorder.deleted}"/>
+            </steps>
+        </webtest>
+    </target>    <!--Merordersheetorder-END-->
+</project>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

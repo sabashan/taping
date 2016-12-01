@@ -1,0 +1,65 @@
+<!-- NOTE: If you're working offline, you might have to change the DOCTYPE to the following:-->
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<!-- <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd"> -->
+
+<hibernate-configuration>
+    <session-factory>
+		<mapping class="com.excelsoft.model.Mstuser"/>
+        <mapping class="com.excelsoft.model.Mstgencodes"/> 
+        <mapping class="com.excelsoft.model.Mststyleheader"/>
+        <mapping class="com.excelsoft.model.Mststylecomponent"/>
+        <mapping class="com.excelsoft.model.Mststyledemmap"/>
+        <mapping class="com.excelsoft.model.Mststyledem"/>
+        <mapping class="com.excelsoft.model.MststylemainColor"/>
+        <mapping class="com.excelsoft.model.Mststylepicture"/>
+        <mapping class="com.excelsoft.model.MststylechildColor"/>
+        <mapping class="com.excelsoft.model.Mstpicture"/>
+        <mapping class="com.excelsoft.model.Mstcompany"/>
+        <mapping class="com.excelsoft.model.Mstcustomer"/>
+        <mapping class="com.excelsoft.model.Mstdepartment"/>
+        <mapping class="com.excelsoft.model.Mstlocation"/>
+        <mapping class="com.excelsoft.model.Mststylewippoints"/>
+        <mapping class="com.excelsoft.model.Mstoperation"/>
+        <mapping class="com.excelsoft.model.Mststyleroute"/>
+        <mapping class="com.excelsoft.model.Mststylerouteoperation"/>
+        <mapping class="com.excelsoft.model.Mstparameter"/>
+        <mapping class="com.excelsoft.model.Mstmachinetype"/>
+<!--    <mapping class="com.excelsoft.model.Mststylerouteopdemmap"/> -->
+        <mapping class="com.excelsoft.model.Mstitemtype"/>
+        <mapping class="com.excelsoft.model.Mststylewippointitemtype"/>
+        <mapping class="com.excelsoft.model.Mststylerouteoperationdemmap"/>
+        <mapping class="com.excelsoft.model.Merprecostsheet"/>
+        <mapping class="com.excelsoft.model.Merprecostsheetcurrency"/>
+        <mapping class="com.excelsoft.model.Mstcurrency"/>
+        <mapping class="com.excelsoft.model.Mstitem"/>
+        <mapping class="com.excelsoft.model.Merprecostsheetrowmaterials"/>
+        <mapping class="com.excelsoft.model.Merprecostsheetsmv"/>
+        <mapping class="com.excelsoft.model.Mstsupplier"/>
+        <mapping class="com.excelsoft.model.Mstnumbers"/>
+        <mapping class="com.excelsoft.model.Mstsmvrates"/>
+        <mapping class="com.excelsoft.model.Mstsmvvoulmerates"/>
+        <mapping class="com.excelsoft.model.Mercostsheethdr"/>
+        <mapping class="com.excelsoft.model.Mercostsheetdemmap"/>
+        <mapping class="com.excelsoft.model.Mercostsheetcountry"/>
+        <mapping class="com.excelsoft.model.Mercostsheetcurrency"/>
+        <mapping class="com.excelsoft.model.Mercostsheetunapprovedloged"/>
+        <mapping class="com.excelsoft.model.Mercostsheetgroup"/>
+        <mapping class="com.excelsoft.model.Mercostsheetgroupsetting"/>
+        <mapping class="com.excelsoft.model.Mercostsheetgroupcolor"/>
+        <mapping class="com.excelsoft.model.Mercostsheetgroupdemmap"/>
+        <mapping class="com.excelsoft.model.Mercostsheetrowmaterial"/>
+        <mapping class="com.excelsoft.model.Mercostsheetsmv"/>
+        <mapping class="com.excelsoft.model.Merordersheethdr"/>
+        <mapping class="com.excelsoft.model.Merordersheetrawmaterial"/>        
+        <mapping class="com.excelsoft.model.Merordersheetorder"/>
+        <mapping class="com.excelsoft.model.Merordersheetdelivery"/>
+        <mapping class="com.excelsoft.model.Merordersheetdem"/>
+        <mapping class="com.excelsoft.model.Merordersheetgroupsetting"/>
+        <mapping class="com.excelsoft.model.Merordersheetgroup"/>
+        <mapping class="com.excelsoft.model.Merordersheetgroupbom"/>
+        <mapping class="com.excelsoft.model.Merordersheetgroupcolor"/>
+        <mapping class="com.excelsoft.model.Merordersheetgroupdemmap"/>
+    </session-factory>
+</hibernate-configuration>

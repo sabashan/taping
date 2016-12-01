@@ -1,0 +1,37 @@
+#sidebar-wrapper {
+    background-color: #262626;
+}
+
+.logo {
+    background: no-repeat url(../img/logo.png) 60px 15px;
+    width: 200px;
+    height: 60px;
+}
+.navbar-collapse {
+padding-left: 5px;
+}
+
+
+.sidebar-nav .panel-group {
+    margin-top: 100px;
+    sborder: none;
+}
+
+.sidebar-nav .panel {
+    background-color: transparent;
+    border: none;
+}
+
+.sidebar-nav .panel-default>.panel-heading {
+    color: #333;
+    background-color: transparent;
+    border: none;
+}
+
+.sidebar-nav .panel-default>.panel-heading+.panel-collapse .panel-body {
+    border-top-color: #000;
+}
+
+.sidebar-nav .panel-group .panel-heading+.panel-collapse .panel-body {
+    border-top: 1px solid #000;
+}

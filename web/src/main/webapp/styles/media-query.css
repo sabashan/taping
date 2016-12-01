@@ -1,0 +1,46 @@
+/*-------Responsive screen css----------*/
+
+@media (min-width: 1170px) {  /*-------Responsive screen css for LG Display----------*/
+   
+    .resopnsive-fix-search-oprt{
+        margin-right: 15px;
+    }
+	
+	.form-signin {
+		max-width: 50%;
+	}
+
+}
+
+@media (max-width: 992px) {
+
+    .table-responsive {
+        width: 100%;
+        margin-bottom: 15px;
+        overflow-y: hidden;
+        overflow-x: scroll;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        border: 1px solid #ddd;
+        -webkit-overflow-scrolling: touch;}
+
+    .well {width: 140%;}
+
+    .res-margintop40{ margin-top: 40px;}
+
+    .ts{float: none;}
+
+}
+
+@media (min-width: 768px) {
+    .form-inline .form-control {
+        width: 100%;
+    }
+
+	.form-signin {
+		max-width: 50%;
+	}
+    .resopnsive-fix-search-oprt{
+        margin-right: 22px;
+    }
+
+}

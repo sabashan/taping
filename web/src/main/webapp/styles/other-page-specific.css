@@ -1,0 +1,767 @@
+/*----View Page Css-----*/
+
+hr {
+    border-top: 1px solid #cecece;
+    margin-top: 6px
+}
+
+.editsection {
+    font-size: 11px;
+}
+
+.edittitle {
+    margin-bottom: -17px;
+}
+
+/*-------Style Route Styles----------*/
+
+.tab-content {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+}
+
+div.DTFC_RightWrapper {
+    left: inherit!important;
+}
+div.DTFC_RightBodyLiner {
+    width: 267px !important;
+}
+
+.nav>li>a:hover{background-color: transparent;}
+
+div.styletoure-hrline:before {
+    top: 30px;
+    bottom: 0;
+    position: absolute;
+    content: " ";
+    width: 53%;
+    height: 1px;
+    background-color: #ccc;
+    margin-left: 20%;
+}
+
+#myTab li.active a{
+    color: #16a085;
+}
+
+#myTab li a{
+    color: #999;
+}
+
+.search-routes-btn{margin: 34px 10px 0 0;}
+
+div.dataTables_wrapper {
+margin-top: 5px;
+}
+
+h3.add-styl-rt{margin-bottom: 8px;}
+
+.styl-rt-submission-btn{ margin: 30px 38px 0 0;}
+
+.icon-addon.addon-md.styl-rt-remarks{margin-bottom: -20px;}
+
+div.dataTables_paginate ul.pagination { margin: 20px 0 0 0; white-space: nowrap;}
+
+.operations-toggle{
+padding: 5px 0px;
+width: 95px;
+background-color: rgba(0, 0, 0, 0);
+float: left;
+cursor: pointer;
+color: #e67e22;
+}
+
+.operations-toggle a{
+    color: #f39c12;
+}
+
+.edit-toggle-styl-rt, .delete-toggle-styl-rt{ 
+padding: 5px 0px;
+width: 75px;
+background-color: rgba(0, 0, 0, 0);
+float: left;
+cursor: pointer;}
+
+div.carousel-inner {
+width: 224px;
+height: 223px;
+}
+
+.ts {
+margin-right: 19px;
+float:right;
+}
+
+div.ts.pull-right {
+margin-right: 19px;
+}
+div.carousel-inner {
+width: 224px;
+height: 223px;
+}
+
+div.ts.pull-right {
+margin-right: 20px;
+}
+
+.dropdowncaret{float: right;margin: -19px 12px;}
+
+
+.gallaryimg{width:100px;}
+
+.imagegallary.thumbnail{
+display: block;
+padding: 10px;
+margin-bottom: 5px;
+line-height: 1.72222;
+background-color: #ffffff;
+border: 2px solid #EEEEEE;
+border-radius: 0px;
+-webkit-transition: all 0.25s ease-in-out;
+transition: all 0.25s ease-in-out;
+height: 128px;
+width: 33.33%;
+float: left;
+}
+
+
+.Scroll-for-datatable section {
+    width: auto; 
+    overflow-x:scroll;  
+    margin-right: 484px;
+    overflow-y:visible;
+}
+
+#route .headcol, #route .headcol2, #route .headcol3{
+    position:  absolute;
+    margin-top: 0px; /*compensate for top border*/
+    top:auto;
+}
+
+#route th.headcol{
+    height: 38px;
+    background-color: #e1e5ef;
+    margin: 0px -2px;
+}
+
+#route th.headcol2{
+    height: 40px;
+    background-color: #e1e5ef;
+    margin: 0px;
+}
+
+#route th.headcol3{
+    height: 40px;
+    background-color: #e1e5ef;
+    margin: 0px;
+}
+
+#route .headcol{
+    right: 386px;
+    width: 100px;
+    height: 35px;
+}
+
+#route .headcol2{
+    right: 253px;
+    width: 133px;
+    height: 35px;
+    border-right: 0px !important;
+    border-left: 0px !important;
+}
+
+#route .headcol3{
+    right:0;
+    width: 253px;
+    height: 35px;
+}
+
+.table>thead>tr>th {
+    padding-bottom: 9px;
+    font-size: 14px;
+}
+
+table#route{
+    border: none;
+}
+
+table#route thead{
+    border: none;
+}
+
+.closeimg{color: #C0C0C0;}
+
+.closeimg:hover{color: #8F8F8F;}
+
+.input-group-btn .btn {
+background-color: #3498db;
+border: 1px solid #bdc3c7;
+color: #FCFCFC;
+line-height: 11px;
+border-radius: 0 6px 6px 0;
+}
+
+.custom-search-form{ width: 370px; }
+
+.table-bordered {
+font-size: 13px;
+}
+
+.aprovedicon, .createdicon, .modifiedicon {
+font-size: 17px;
+display: block;
+width: 25px;
+height: 25px;
+float: left;
+margin: 10px 7px 5px 0px;}
+
+.modifiedby, .createdby, .aprovedby{width: 165px;float: left; margin-right: 20px;}
+
+.aprovedbytitle{font-size: 11px;}
+
+.form-control[readonly]{color: #777777;}
+
+.form-group .lable-with-checkbox{
+    margin: 0 0 0 15px;
+    position: relative;
+    top: 3px;
+}
+
+td.center{text-align: center;}
+
+th.center{text-align: center;}
+
+.styl-right-submission-btn{margin: 30px 0px 0 0;}
+
+.smw-text-btn-div{margin: 10px 0px 20px 0;}
+
+.apply-form-textbox{
+    border: 1px solid #bdc3c7;
+    font-size: 13px;
+    height: 35px;
+    border-radius: 3px;
+    padding: 8px 12px;
+    width: 130px;
+    background-color: #fff;
+    margin: 0px 10px 0 10px;
+}
+
+.small-table-textbox {
+    border: 1px solid #bdc3c7;
+    font-size: 13px;
+    height: 28px;
+    border-radius: 3px;
+    padding: 8px 12px;
+    width: 80%;
+    background-color: #fff;
+    margin: 0px 0px 0 0px;
+}
+
+.apply-form-textbox:focus {
+    border-color: #1abc9c;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.small-table-textbox:focus {
+    border-color: #1abc9c;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.delete-confirm-heading{
+    color: #A94442 !important;
+    font-size: 17px !important;
+}
+
+.delete-conf-alert-danger{
+    margin:0;
+    border: none;
+    background-color: rgba(231, 76, 60, 0.16);
+}
+
+.delete-conf-content{
+    border: none;
+}
+
+.delete-conf-alert-danger p{
+    color: #A94442;
+}
+
+/*-------oparations-grid Scroll css start----------*/
+.clicked >td{background-color: rgba(52, 152, 219, 0.28) !important;}
+
+.table-hover>tbody>tr>td{cursor:pointer;}
+
+
+.Scroll-for-oparations-grid section {
+    width: auto; 
+    overflow-x:scroll;  
+    margin-right: 163px;
+    overflow-y:visible;
+}
+
+#oparations-grid .headcol{
+    position:  absolute;
+    margin-top: 0px; /*compensate for top border*/
+    top:auto;
+}
+
+#oparations-grid .headcol{
+    right: 0px;
+    width: 165px;
+    height: 43px
+}
+
+#oparations-grid th.headcol{
+    height: 38px;
+    background-color: #e1e5ef;
+    margin: -1px 0px 0 0;
+}
+
+.panel {border: 1px solid #ebe9e7;}
+.table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
+    background-color: rgba(127, 140, 141, 0.17);
+}
+
+.selected{
+    background-color: rgba(52, 152, 219, 0.28)s !important;
+}
+
+.model-popup-fix{
+    top: 100px;
+}
+
+.model-popup-padding{
+    padding: 12px 20px 30px 20px;
+}
+
+.medium-table-textbox {
+    border: 1px solid #bdc3c7;
+    font-size: 13px;
+    height: 28px;
+    border-radius: 3px;
+    padding: 8px 12px;
+    width: 80%;
+    background-color: #fff;
+    margin: 0px 0px 0 0px;
+    width: 200px;
+}
+
+.copy-cancel-bnts{
+    margin: 70px 0px 0 0;
+}
+
+.remove-btn-bg-styles{
+    background-color: #f9fafb;
+    color: #5a6673 !important;
+    border: none !important;
+    box-shadow: none;
+}
+
+.remove-btn-bg-styles:hover, .remove-btn-bg-styles:visited, .remove-btn-bg-styles:active, .remove-btn-bg-styles:link{
+    background-color: #f9fafb !important;
+    color: #5bc0de !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.marginRight6{
+    margin-right: 6px;
+}
+
+
+/*-------oparations-grid Scroll css end----------*/
+
+/*-------Wip Points CSS Start----------*/
+
+.paddingOnlyBottom{
+    padding: 0 0 12px 0;
+}
+
+.margin-searchfilter {
+    margin: 4px 20px 20px 0;
+}
+
+.width-of-search-form{
+   width:240px !important; 
+}
+
+.select-control{
+    border: 1px solid #bdc3c7;
+    font-size: 13px;
+    height: 28px;
+    border-radius: 3px;
+}
+
+.select-control:focus {
+    border-color: #1abc9c;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+
+
+/*-------Style View Page CSS Starts----------*/
+
+.div-table-heading{
+    font-size: 13px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 5px;
+    color: #5a6673
+}
+
+.div-table-normal-text{
+    font-size: 13px;
+    display: inline-block;
+    margin-bottom: 5px;
+    color: #5a6673
+}
+
+.div-table-text-position{
+    padding: 0;
+    margin-left: 0px;
+}
+
+.modal-header-custom{
+    border: none;
+    padding: 0;
+}
+
+
+/*-------Style View Page CSS Ends----------*/
+
+
+
+/*-------Wip-points.html CSS Starts----------*/
+
+
+.wip-points-tb .middle-align{
+    width: 170px;
+}
+
+.inside-table-textbox{
+    width: 50%;
+    margin: 0 16px 0 20px;
+}
+
+.dropdowncaret-inside-table{
+    position: relative;
+    left: -36px;
+    top: 8px;
+    margin: 0;
+    float: none;
+}
+
+.padding-for-btn{
+    padding: 11px 35px;
+}
+
+.quick-tip-ico{
+    margin-top: 1px;
+    margin-right: 5px;
+}
+
+.quick-tip-heading{
+    margin: 0;
+    font-weight: bold;
+}
+
+.panel-percent{
+    float: right;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: -20px;
+    right: 125px;
+}
+
+.panel-title2{
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 13px;
+    color: inherit;
+    margin-right: 95px;
+}
+
+.nav li a button{
+    background-color: #e5e5e5;
+    color: #b4b4b4;
+}
+
+/*-------Wip-points.html CSS Ends----------*/
+
+/*------- Copy of dev-custom.css start ------ */
+
+.logo {
+   background: url("../images/logo.png") no-repeat scroll 60px 20px rgba(0, 0, 0, 0);
+   height: 72px;
+   width: 200px;
+}
+
+div.dataTables_filter label {
+    float: right;
+    margin-top: 32px;
+}
+
+.process_status{
+	display:none;
+}
+
+div.dataTables_length select {
+	padding-top: 8px;
+}
+
+
+/*.btn-group>.btn:first-child {
+	height: 37px;
+	border-radius: 6px 0 0 6px;
+}*/
+
+.draganddropupload {
+	padding: 100px 40px;
+}
+
+/*label {
+	margin-left: 15px;
+}*/
+
+.error-message {
+    color: #e74c3c;
+    font-size: 11px;
+    position: relative;
+    z-index: 1;
+    float: right;
+    margin: 0;
+}
+
+.formsearchbtn {
+	/*float: right;*/
+	margin-top: 3.0em;
+/*	margin-right: 0.8em;*/
+}
+
+.widget-inner-col {
+	margin-bottom: 2px;
+}
+
+#styleHeadderadd {
+	margin-top: -120px;
+}
+
+input[type="checkbox"] {
+	margin-top: 9px;
+}
+
+.well {
+    background-color: none;
+    border: none;
+    border-radius: none;
+    box-shadow: none;
+    margin-bottom: none;
+    min-height: none;
+    padding: none;
+}
+
+/*.paddingleft20 {
+    padding-left: 5px;
+}*/
+
+.dropzone {
+    margin-top: -98px;
+    margin-left: -34px;
+    width: 249px;
+}
+
+span.pagebanner{display: none;}
+
+.form-group {
+    position: relative;
+    margin-bottom: 0;
+}
+.feedback{
+	height:26px;
+}
+
+.carousel-img{
+	height: 223px;
+    width: 224px;
+}
+
+.btn-model-select-div{
+    border-radius: 3px;
+    padding:0;
+}
+
+.btn-model-select{
+    padding: 10px 10px 24px 10px !important;
+    height: 16px !important;
+    border-right: 3px !important;
+    margin-top: -2px;
+}
+
+.btn-model-select:hover{
+    background-color: #48c9b0 !important;
+}
+
+#oparations-grid .selected{
+
+    background-color: rgba(52, 152, 219, 0.28) !important;
+
+}
+
+
+/*------- Copy of dev-custom.css Ends ------ */
+
+/*------- Wip-points.html Assign Row Materials Starts ------ */
+
+.only-delete-in-action{
+    width: 100% !important;
+}
+
+/*------- Wip-points.html Assign Row Materials Ends ------ */
+
+
+.Scroll-for-datatable-2 section {
+    width: auto;
+    overflow-x: scroll;
+    margin-right: 386px;
+    overflow-y: visible;
+}
+
+.routId .headcol {
+    right: 38%;
+    width: 120px;
+    position: absolute;
+    height: 66px;
+    background-color: #e1e5ef;
+    margin: 0px;
+}
+
+.routId .headcol3 {
+    right: 47px;
+    width: 253px;
+    position: absolute;
+    height: 66px;
+    background-color: #e1e5ef;
+    margin: 0px;
+}
+
+.routId .headcol2 {
+    right: 300px;
+    width: 133px;
+    border-right: 0px !important;
+    border-left: 0px !important;
+    position: absolute;
+    height: 66px;
+    background-color: #e1e5ef;
+    margin: 0px;
+
+}
+
+.fixed-width-th{
+    /* min-width: 546px; */
+}
+
+.routId td{
+    height: 65px;
+}
+
+.routId th.headcol {
+    height: 54px;
+    margin-top: -1px;
+}
+
+.routId th.headcol2 {
+    height: 54px;
+    margin-top: -1px;
+}
+
+.routId th.headcol3 {
+    height: 54px;
+    margin-top: -1px;
+}
+
+.expolinks{
+    margin-left: 15px;
+}
+
+table tbody td{
+    white-space: nowrap;
+    width: 100%;
+}
+
+.table > thead > tr > th a{
+    color:#526476 !important;
+}
+
+#styleBrowserBody2 table td.headcol3 {
+    padding-left: 1px;
+}
+
+li.disabled button{
+    cursor: not-allowed;
+}
+
+.overflow-visible{
+    overflow: visible !important;
+}
+
+.final_cost_sheet_status{
+    height: 71px !important;
+    padding-top:2.4% !important;
+}
+
+.final_cost_sheet_status_text{
+    height: 34px !important;
+}
+
+.final_cost_sheet_opasnew{
+    width: 127px !important;
+    height: 71px !important;
+    padding-top:2.4% !important;
+}
+
+.final_cost_sheet_opasnew_text{
+    width: 127px !important;
+    height: 34px !important;
+}
+
+.final_cost_sheet_action{
+    height: 71px !important;
+    padding-top:2.4% !important;
+}
+
+.final_cost_sheet_action_text{
+    height: 34px !important;
+}
+
+.finalcost_sheet_approve{
+    margin-right: 515px !important;
+}
+
+.buyer_approved_precost_sheet{
+    height: 105px !important;
+    padding-top: 4% !important;
+    padding-left: 3% !important;
+}
+
+.buyer_approved_precost_sheet_text{
+    height: 34px !important;
+}
+
+.buyer_approved_precost_sheet_CFS{
+    text-align: center !important;
+    height: 105px !important;
+    padding-top: 4% !important;
+}
+
+.buyer_approved_precost_sheet_CFS_text{
+    height: 34px !important;
+}
+

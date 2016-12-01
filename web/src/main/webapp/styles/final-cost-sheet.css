@@ -1,0 +1,181 @@
+#route .headcol2 {
+    border-left: 1px solid #DDD !important; 
+}
+
+.styletoure-hrline-fcs:before {
+	top: 30px;
+	bottom: 0;
+	position: absolute;
+	content: " ";
+	width: 65%;
+	height: 1px;
+	background-color: #ccc;
+	margin-left: 15%;
+}
+
+.advance-comb {
+	padding: 5px 10px;
+	width: 100%; 
+	background-color: rgba(0, 0, 0, 0);
+	float: left;
+	cursor: pointer;
+}
+
+.advance-comb a {
+	color:#0185f1;
+}
+
+.fcsRout .headcol {
+	width: 150px;
+}
+
+.fcsSection {
+	margin-right: 535px !important;
+}
+
+.fcsmulti .chosen-container .chosen-drop {
+	position: relative;
+}
+
+.fcstdChosen .chosen-container{
+	width : 200px !important
+}
+
+.fcstdChosen .search-field{
+	width: 100% !important;
+}
+
+.fcstdChosen {
+	padding: 0;
+}
+
+#createGroups .panel-group .panel{
+	overflow: visible;
+}
+
+.advance-comb2 {
+	padding: 0;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0);
+	float: left;
+	cursor: pointer;
+}
+
+.advance-comb2 a {
+	color:#0185f1;
+}
+
+.showHideTable input[type="checkbox"] {
+	margin-top: 9px;
+	padding: 0;
+	margin: 0;
+	padding-left: 45%;
+	margin-left: 22%;
+}
+
+.addedFCS .modal-header{
+    padding: 0;
+    padding-bottom: 15px;
+    border-bottom: 0;
+}
+
+.addedFCS .modal-header h5{
+    font-size: 16px;
+}
+
+.addedFCS .formwithsearch {
+    float: left;
+    width: 100%;
+}
+
+.addedFCS .modal-lg{
+    width:1000px;
+}
+
+.addedFCS .submit-button .btn {
+    padding: 11px 35px;
+    margin-right: 0px;
+    margin-left: 10px;
+}
+
+.thCheckboxWidth{
+   width: 100%;
+}
+
+.overflow-visible{
+    overflow: visible !important;
+}
+
+.width100per{
+    width: 100% !important;
+}
+
+.chosen-container{
+    width: 100% !important;
+}
+
+.absoluteChosen .chosen-container{
+    position: absolute;
+}
+
+.absoluteChosen .search-choice{
+    padding: 6px 20px 6px 12px !important;
+}
+
+
+
+.widthChangeHeadcol2 .headcol2 {
+    width: 150px !important;
+}
+
+#FCStype2 .panel-heading{
+    background-color: #CCCCCC;
+    color: #686868 !important;
+}
+
+#FCStype2 .panel{
+    overflow: visible;
+}
+
+#bssDetails2 .panel-heading{
+    background-color: #CCCCCC;
+    color: #686868 !important;
+}
+
+#bssDetails2 .panel{
+    overflow: visible;
+}
+
+.colorGreen{
+    color: #2ecc71 !important;
+}
+
+.chContainer .chosen-container{
+    position: absolute !important;
+}
+
+.fcsApprovSection {
+    margin-right: 396px !important;
+}
+
+.fcsApprovSection .headcol2 {
+    width: 144px !important;
+}
+
+.fcsApprovSection .view-toggle{
+    margin-left: 28%;
+}
+
+.comment_textarea{
+    width: 100%;
+}
+
+.overflow-scroll-y{
+    overflow-y: scroll;
+}
+
+.advance-comb a {
+    color: #0185f1;
+}
+
+

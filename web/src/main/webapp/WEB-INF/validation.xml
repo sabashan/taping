@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+        "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.3.0//EN"
+        "http://jakarta.apache.org/commons/dtds/validator_1_3_0.dtd">
+
+<form-validation>
+    <global>
+        <constant>
+            <constant-name>phone</constant-name>
+            <constant-value>^\(?(\d{3})\)?[-| ]?(\d{3})[-| ]?(\d{4})$</constant-value>
+        </constant>
+        <constant>
+            <constant-name>zip</constant-name>
+            <constant-value>^\d{5}\d*$</constant-value>
+        </constant>
+        <constant>
+            <constant-name>currency</constant-name>
+            <constant-value>^\d{1,3}(,?\d{1,3})*\.?(\d{1,2})?$</constant-value>
+        </constant>
+    </global>
+    <formset>
+        <form name="fileUpload">
+            <field property="name" depends="required">
+                <arg key="uploadForm.name"/>
+            </field>
+            <!-- Client-side Javascript won't catch this in IE, but server-side will -->
+            <field property="file" depends="required">
+                <arg key="uploadForm.file"/>
+            </field>
+        </form>
+        <form name="mstuser">
+            <field property="username" depends="required">
+                <arg key="user.username"/>
+            </field>
+        </form>
+         <form name="user">
+            <field property="username" depends="required">
+                <arg key="user.username"/>
+            </field>
+        </form>
+        <form name="signup" extends="user">
+            <field property="password" depends="required">
+                <arg key="user.password"/>
+            </field>
+        </form>
+        <form name="mstcustomer">
+            <field property="boiRegno" depends="required">
+                <arg key="mstcustomer.boiRegno"/>
+            </field>
+            <field property="buyerEmail" depends="email">
+                <arg key="mstcustomer.buyerEmail"/>
+            </field>
+            <field property="createdOn" depends="required">
+                  <arg key="mstcustomer.createdOn"/>
+            </field>
+        </form>
+        <!--Mststyleheader-START-->
+        <form name="mststyleheader">
+            <field property="flag" depends="required">
+                <arg key="mststyleheader.flag"/>
+            </field>
+            <field property="productRange" depends="required">
+                <arg key="mststyleheader.productRange"/>
+            </field>
+            <field property="userId" depends="required">
+                <arg key="mststyleheader.userId"/>
+            </field>
+        </form>
+        <!--Mststyleheader-END-->
+        <!--Mststylerouteoperation-START-->
+        <form name="mststylerouteoperation">
+        </form>
+        <!--Mststylerouteoperation-END-->
+        <!--Mststyleoperation-START-->
+        <form name="mststyleoperation">
+        </form>
+        <!--Mststyleoperation-END-->
+        <!--Mststylerouteopdemmap-START-->
+        <form name="mststylerouteopdemmap">
+        </form>
+        <!--Mststylerouteopdemmap-END-->
+        <!--Mststylewippoints-START-->
+        <form name="mststylewippoints">
+        </form>
+        <!--Mststylewippoints-END-->
+        <!--Mststylewippointitemtype-START-->
+        <form name="mststylewippointitemtype">
+        </form>
+        <!--Mststylewippointitemtype-END-->
+        <!--Merprecostsheet-START-->
+        <form name="merprecostsheet">
+            <!-- <field property="costsheetType" depends="required">
+                <arg key="merprecostsheet.costsheetType"/>
+            </field>-->
+            <field property="season" depends="required">
+                <arg key="merprecostsheet.season"/>
+            </field>
+        </form>
+        <!--Merprecostsheet-END-->
+        <!--Mercostsheethdr-START-->
+        <form name="mercostsheethdr">
+            <field property="season" depends="required">
+                <arg key="mercostsheethdr.season"/>
+            </field>
+        </form>
+        <!--Mercostsheethdr-END-->
+        <!--Merordersheethdr-START-->
+        <form name="merordersheethdr">
+        </form>
+        <!--Merordersheethdr-END-->
+        <!--Merordersheetorder-START-->
+        <form name="merordersheetorder">
+        </form>
+        <!--Merordersheetorder-END-->
+    </formset>
+</form-validation>

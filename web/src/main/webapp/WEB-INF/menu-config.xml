@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MenuConfig>
+    <Displayers>
+        <Displayer name="Velocity" type="net.sf.navigator.displayer.VelocityMenuDisplayer"/>
+    </Displayers>
+    <Menus>
+        <Menu name="Home" title="home.title" page="/home" roles="ROLE_ADMIN,ROLE_USER"/>
+        <!-- <Menu name="UserMenu" title="menu.user" description="User Menu" page="/userform" roles="ROLE_ADMIN,ROLE_USER"/> -->
+        <Menu name="AdminMenu" title="menu.admin" description="Admin Menu" roles="ROLE_ADMIN" page="/admin/users">
+            <!-- <Item name="ViewUsers" title="menu.admin.users" page="/admin/users"/> -->
+            <Item name="ActiveUsers" title="home.activeUsers" page="/admin/activeUsers"/>
+            <Item name="ReloadContext" title="menu.admin.reload" page="/admin/reload"/>
+            <!-- <Item name="FileUpload" title="menu.selectFile" page="/fileupload"/> -->
+        </Menu>
+        <Menu name="MststyleheaderMenu" title="merchentd.maintitle" description="style Master Menu" roles="ROLE_ADMIN,ROLE_USER" page="/mststyleheaders">
+            <Item name="ViewstyleMaster" title="mststyleheaderList.title" page="mststyleheaders"/>
+            <Item name="MststylerouteoperationMenu" title="mststylerouteoperationList.title" page="mststylerouteoperations"/>
+        	<Item name="MststylewippointsMenu" title="mststylewippointsList.title" page="mststylewippointss"/>
+        	<Item name="MerprecostsheetMenu" title="merprecostsheetList.title" page="merprecostsheets"/>
+        </Menu>
+        <Menu name="Logout" title="user.logout" page="/logout" roles="ROLE_ADMIN,ROLE_USER"/>
+        <!--Mststyleheader-START-->
+      <!--   <Menu name="MststyleheaderMenu" title="mststyleheaderList.title" page="/mststyleheaders"/> -->
+        <!--Mststyleheader-END-->
+        <!--Mststylerouteoperation-START-->
+        
+        <!--Mststylerouteoperation-END-->
+        <!--Mststyleoperation-START-->
+        <!-- <Menu name="MststyleoperationMenu" title="mststyleoperationList.title" page="/mststyleoperations"/> -->
+        <!--Mststyleoperation-END-->
+        <!--Mststylerouteopdemmap-START-->
+<!--         <Menu name="MststylerouteopdemmapMenu" title="mststylerouteopdemmapList.title" page="/mststylerouteopdemmaps"/> -->
+        <!--Mststylerouteopdemmap-END-->
+        <!--Mststylewippointitemtype-START-->
+        <Menu name="MststylewippointitemtypeMenu" title="mststylewippointitemtypeList.title" page="mststylewippointitemtypes"/>
+        <!--Mststylewippointitemtype-END-->
+        <!--Merprecostsheet-START-->
+        <Menu name="MerprecostsheetMenu" title="merprecostsheetList.title" page="merprecostsheets"/>
+        <!--Merprecostsheet-END-->
+        <!--Mercostsheethdr-START-->
+        <Menu name="MercostsheethdrMenu" title="mercostsheethdrList.title" page="/mercostsheethdrs"/>
+        <!--Mercostsheethdr-END-->
+        <!--Merordersheethdr-START-->
+        <Menu name="MerordersheethdrMenu" title="merordersheethdrList.title" page="/merordersheethdrs"/>
+        <!--Merordersheethdr-END-->
+        <!--Merordersheetorder-START-->
+        <Menu name="MerordersheetorderMenu" title="merordersheetorderList.title" page="/merordersheetorders"/>
+        <!--Merordersheetorder-END-->
+    </Menus>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</MenuConfig>

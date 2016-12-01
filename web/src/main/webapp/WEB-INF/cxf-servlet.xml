@@ -1,0 +1,69 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+            http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+            http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+    <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+
+    <jaxws:endpoint id="userService" implementor="#userManager" address="/UserService"/> 
+	<!-- <jaxws:endpoint id="mstgencodesService" implementor="#mstgencodesManager" address="/MstgencodesService"/>
+	<jaxws:endpoint id="MststyleheaderService" implementor="#mststyleheaderManager" address="/MststyleheaderService"/> -->
+   <!--  <jaxws:endpoint id="MstgencodesService" implementor="#mstgencodesManager" address="/MstgencodesService"/> 
+    --> <!-- mstgencodesManager -->
+    <!-- Add new endpoints for additional services you'd like to expose -->
+    
+    <jaxrs:server address="/api">
+        <jaxrs:features>
+            <cxf:logging/>
+        </jaxrs:features>
+        <jaxrs:serviceBeans>
+            <ref bean="userManager"/>
+            <ref bean="mstgencodesManager"/>
+            <ref bean="mststyleheaderManager"/>
+            <ref bean="mststylerouteoperationManager"/>
+            <ref bean="mststylerouteManager"/>
+            <ref bean="mstoperationManager"/>
+            <ref bean="mstmachinetypeManager"/>
+            <ref bean="mstlocationManager"/>
+            <ref bean="mststylemainColorManager"/>
+            <ref bean="mststylecomponentManager"/>
+            <ref bean="mstcustomerManager"/>
+           	<ref bean="mstcompanyManager"/>
+            <ref bean="mstuserManager"/>
+            <ref bean="mststylerouteoperationdemmapManager"/>
+            <ref bean="mststylewippointsManager"/>
+            <ref bean="mststylewippointitemtypeManager"/>
+            <ref bean="mstitemtypeManager"/>
+           	<ref bean="merprecostsheetManager"/>
+           	<ref bean="mstnumbersManager"/>
+           	<ref bean="mstcurrencyManager"/>
+           	<ref bean="merprecostsheetrowmaterialsManager"/>
+           	<ref bean="mstitemManager"/>
+          	<ref bean="mstsupplierManager"/>
+         	<ref bean="mstsmvratesManager"/>
+        	<ref bean="mstsmvvoulmeratesManager"/>
+        	<ref bean="mercostsheetrowmaterialManager"/>
+        	<ref bean="mercostsheetgroupManager"/>
+       		<ref bean="merordersheetrawmaterialManager"/>
+       		<ref bean="merordersheethdrManager"/>
+       		<ref bean="mercostsheethdrManager"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jsonProvider"/>
+        </jaxrs:providers>
+        <jaxrs:extensionMappings>
+            <entry key="json" value="application/json"/>
+            <entry key="xml" value="application/xml"/>
+            <entry key="feed" value="application/atom+xml"/>
+        </jaxrs:extensionMappings>
+    </jaxrs:server>
+
+</beans>

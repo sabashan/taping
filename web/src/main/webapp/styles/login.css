@@ -1,0 +1,82 @@
+ @charset "utf-8";
+
+ body {
+		  height: 100%;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #262626;
+		font-family: 'Lato', sans-serif; 
+		color:#999999;}
+
+      .form-signin {
+        max-width: 40%;
+		padding: 50px 60px 30px;
+        margin: auto auto 20px;
+        background-color: rgba(232, 235, 235, 0.06);
+		-webkit-box-shadow: 0 0 10px rgba(0,0,0,.26);
+		-moz-box-shadow: 0 0 10px rgba(0,0,0,.26);
+		box-shadow: 0 0 10px rgba(0,0,0,.26);
+      }
+
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 30px;
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 17px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 9px;
+		border: 0px;
+		border-radius: 0px;
+      }
+	  .logo{font-family: 'Roboto Slab', serif;
+	  	font-size:34px;
+	  	color:#3598db;
+	  	text-align:center;
+		font-weight: normal;}
+	  
+	  .btn-large {
+		padding: 11px 90px;
+		font-size: 17.5px;
+		margin-left: 55px;
+		margin-top: 8px;}
+	
+		input, button, select, textarea {
+		font-family: 'Lato',sans-serif;}
+	
+		.lisance{
+		font-size: 11px;
+		position: relative;
+		top: 20px;
+		left: 79px;}
+
+
+
+	@media (max-width: 1200px) {  /*-------Responsive screen css for LG Display----------*/
+    
+	.form-signin {
+	    max-width: 50%;
+	}
+
+}
+
+
+	@media (max-width: 992px) {
+
+	.form-signin {
+	    max-width: 60%;
+	}
+
+
+	}
+
+		@media (max-width: 768px) {
+
+	.form-signin {
+	    max-width: 60%;
+	}
+
+
+	}

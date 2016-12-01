@@ -1,0 +1,9 @@
+/*-------Fireforx Only CSS----------*/
+
+@-moz-document url-prefix() { 
+
+  .caret.dropdowncaret {
+     display: none;
+  }
+
+}

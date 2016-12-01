@@ -1,0 +1,57 @@
+.topbar {
+    background-color: #375d81;
+    height: 60px;
+    position: fixed;
+    width: 100%;
+    padding-left: 0px;
+    z-index: 999;
+}
+
+.admin-dropdown, .topbaricon {
+    font-size: 20px;
+    padding: 20px;
+    background-image: none;
+    color: #8ea3b6;
+    line-height: 0px;
+}
+
+.topbaricon:hover {
+    background-color: #3d678d;
+}
+
+.admin-dropdown {
+    width: 200px;
+    padding: 17px;
+    cursor: pointer;
+    height: 60px;
+}
+
+.topbar-text {
+    font-size: 14px;
+}
+
+.caret {
+    border-left-width: 4px;
+    border-right-width: 4px;
+    border-top-width: 6px;
+    border-bottom-color: #8ea3b6;
+    margin: 10px 5px;
+}
+
+.topbar-controls {
+    position: relative;
+    z-index: 2;
+    position: fixed;
+    z-index: 2;
+    top: 0px;
+    right: 0px;
+}
+
+.menuheader {
+    font-size: 17px;
+    color: #dbdbdb;
+}
+
+.menuheader:hover {
+    text-decoration: none;
+}
